@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileAPI.Controllers
+namespace FileAPI.Controllers;
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -12,7 +12,7 @@ namespace FileAPI.Controllers
         [HttpPost("upload"), DisableRequestSizeLimit]
         public async Task<IActionResult> UploadFile([FromForm] FileUploadModel model)
         {
-            if(model.File==null && model.File.Length == 0)
+        if (model.File == null && model.File.Length == 0)
             {
                 return BadRequest("Invalid File");
             }
@@ -43,14 +43,43 @@ namespace FileAPI.Controllers
 
 
         [HttpPost("multipleUpload"), DisableRequestSizeLimit]
-        public async Task<IActionResult> MultipleUploadFile([FromForm] MultipleUploadFileModel model)
+    public async Task<IActionResult> MultipleUploadFile([FromForm] MultipleUploadModel model)
         {
            
             
+        var response = new Dictionary<string, string>();
+        if (model.Files == null || model.Files.Count == 0)
+        {
+            return BadRequest("Invalid File");
+        }
             
+        foreach (var file in model.Files)
+        {
+            var folderName = Path.Combine("Resources", "AllFiles");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (!Directory.Exists(pathToSave))
+            {
+                Directory.CreateDirectory(pathToSave);
+            }
             
-            return Ok(new { });
+            var fileName = file.FileName;
+            //c://resources/repos/allfiles/fileName.jpg
+            var fullPath = Path.Combine(pathToSave, fileName);
+            var dbPath = Path.Combine(folderName, fileName);
 
+            if (!System.IO.File.Exists(fullPath))
+            {
+                using var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+                await System.IO.File.WriteAllBytesAsync(fullPath, memoryStream.ToArray());
+                response.Add(fileName, dbPath);
+            }
+            else
+            {
+                response.Add(fileName, "Already exists.");
+            }
+        }
+        return Ok(new { response });
         }
 
 

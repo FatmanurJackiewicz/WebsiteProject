@@ -42,6 +42,17 @@ namespace FileAPI.Controllers
         }
 
 
+        [HttpPost("multipleUpload"), DisableRequestSizeLimit]
+        public async Task<IActionResult> MultipleUploadFile([FromForm] MultipleUploadFileModel model)
+        {
+           
+            
+            
+            
+            return Ok(new { });
+
+        }
+
 
 
 

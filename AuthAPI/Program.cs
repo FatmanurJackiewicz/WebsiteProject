@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+
 namespace AuthAPI
 {
     public class Program
@@ -12,6 +14,10 @@ namespace AuthAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            IServiceCollection serviceCollection = builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();

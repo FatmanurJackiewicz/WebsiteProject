@@ -10,14 +10,15 @@ public class User
     [Key]
     public int Id { get; set; }
 
-    [MaxLength(50)]
+    [Required, MaxLength(50)]
     public string Username { get; set; }
+    public string ConfirmPassword { get; internal set; }
+    public EmailAddressAttribute Email { get; internal set; }
 
-    [MaxLength(255)]
-    public required IPasswordHasher<PasswordHasher> PasswordHash;
+    [Required, MaxLength(255)]
+    public string Password;
 
 
-    public IdentityRole Role { get; set; }
-
+    public IdentityRole Role;
 
 }

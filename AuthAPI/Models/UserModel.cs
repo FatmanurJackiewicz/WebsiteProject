@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace AuthAPI.Models;
 
 public class UserModel
 {
-    [PrimaryKey]
+    [Key]
     public int Id { get; set; }
 
     [MaxLength(50)]

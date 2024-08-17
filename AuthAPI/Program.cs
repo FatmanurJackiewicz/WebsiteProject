@@ -17,6 +17,17 @@ namespace AuthAPI
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             IServiceCollection serviceCollection = builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole",
+                    policy => policy.RequireRole("Admin"));
+            });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireCommenterRole",
+                    policy => policy.RequireRole("Commenter"));
+            });
+
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();

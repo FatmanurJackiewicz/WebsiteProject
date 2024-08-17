@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthAPI
@@ -28,6 +27,11 @@ namespace AuthAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            using var scope = app.Services.CreateScope();
+            using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            context.Database.EnsureCreated();
+            context.Database.EnsureDeleted();
 
             app.UseHttpsRedirection();
 

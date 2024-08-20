@@ -11,20 +11,21 @@ namespace AuthAPI.Controllers
     {
         private static readonly List<User> _users = new();
 
-        [HttpPost]
+        [HttpPost ("login")]
         public IActionResult Login([FromForm] LoginDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return Ok();
             }
-            var user = _users.Find(u => u.Email == dto.Email && u.Password == login.Password);
+            var user = _users.Find(u => u.Email == dto.Email && u.Password == dto.Password);
 
             if (user == null)
             {
                 return BadRequest("Username or Password is wrong.");
             }
 
+            return Ok("Login is succesful");
 
 
         }
@@ -35,8 +36,14 @@ namespace AuthAPI.Controllers
             var user = new User()
             {
                 Username = registerDto.Username,
-                Password = registerDto.Password                
+                Email = registerDto.Email,
+                Password = registerDto.Password,
             };
+            var ConfirmPassword = registerDto.ConfirmPassword;
+            if (ConfirmPassword == user.Password)
+            {
+                return BadRequest("Password does not match.");
+            }
 
             _users.Add(user);
 

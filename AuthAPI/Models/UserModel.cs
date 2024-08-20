@@ -12,7 +12,6 @@ public class User
 
     [Required, MaxLength(50)]
     public string Username { get; set; }
-    public string ConfirmPassword { get; internal set; }
     public string Email { get; internal set; }
 
     [Required, MaxLength(255)]

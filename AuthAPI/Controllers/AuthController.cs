@@ -24,7 +24,7 @@ namespace AuthAPI.Controllers
             {
                 return Ok();
             }
-            var user = _users.Find(u => u.Email == dto.Email && u.Password == dto.Password);
+            var user = _users.Find(u => u.Email == dto.Email && u.PasswordHash == dto.Password);
 
             if (user == null)
             {
@@ -52,7 +52,7 @@ namespace AuthAPI.Controllers
             {
                 Username = registerDto.Username,
                 Email = registerDto.Email.ToLower(), // Normalize email case
-                Password = registerDto.Password,
+                PasswordHash = registerDto.Password,
             };
 
             _users.Add(user);

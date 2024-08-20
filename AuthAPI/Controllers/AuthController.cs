@@ -17,7 +17,7 @@ namespace AuthAPI.Controllers
             return Ok(_users);
         }
 
-        [HttpPost ("login")]
+        [HttpPost("login")]
         public IActionResult Login([FromForm] LoginDto dto)
         {
             if (!ModelState.IsValid)
@@ -31,26 +31,34 @@ namespace AuthAPI.Controllers
                 return BadRequest("Username or Password is wrong.");
             }
 
-            return Ok("Login is succesful");
-
-
+            return Ok("Login is successful");
         }
 
         [HttpPost("register")]
         public IActionResult Register([FromForm] RegisterDto registerDto)
         {
+            if (registerDto.Password != registerDto.ConfirmPassword)
+            {
+                return BadRequest("Passwords do not match.");
+            }
+
+            var userExists = _users.Any(u => u.Email == registerDto.Email);
+            if (userExists)
+            {
+                return BadRequest("A user with this email already exists.");
+            }
+
             var user = new User()
             {
                 Username = registerDto.Username,
-                Email = registerDto.Email,
+                Email = registerDto.Email.ToLower(), // Normalize email case
                 Password = registerDto.Password,
             };
-            var ConfirmPassword = registerDto.ConfirmPassword;
 
             _users.Add(user);
 
-            return Ok(_users);
-        }
+            return Ok();
 
+        }
     }
 }

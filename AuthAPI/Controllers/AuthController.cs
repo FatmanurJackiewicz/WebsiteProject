@@ -17,10 +17,7 @@ namespace AuthAPI.Controllers
             var user = new User()
             {
                 Username = registerDto.Username,
-                Email = registerDto.Email,
-                Password = registerDto.Password,
-                ConfirmPassword = registerDto.ConfirmPassword
-                
+                Password = registerDto.Password                
             };
 
             _users.Add(user);

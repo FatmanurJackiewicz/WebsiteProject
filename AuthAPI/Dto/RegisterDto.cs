@@ -14,7 +14,7 @@ namespace AuthAPI.Dto
         public string Password { get; set; }
 
 
-        [Compare(nameof(Password))]
+        [Compare(nameof(Password)), DataType(DataType.Password)]
         public string ConfirmPassword { get; internal set; }
 
     }

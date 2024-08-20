@@ -11,6 +11,12 @@ namespace AuthAPI.Controllers
     {
         private static readonly List<User> _users = new();
 
+        [HttpGet("UserList")]
+        public IActionResult GetUsers()
+        {
+            return Ok(_users);
+        }
+
         [HttpPost ("login")]
         public IActionResult Login([FromForm] LoginDto dto)
         {
@@ -31,7 +37,7 @@ namespace AuthAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] RegisterDto registerDto)
+        public IActionResult Register([FromForm] RegisterDto registerDto)
         {
             var user = new User()
             {
@@ -40,10 +46,6 @@ namespace AuthAPI.Controllers
                 Password = registerDto.Password,
             };
             var ConfirmPassword = registerDto.ConfirmPassword;
-            if (ConfirmPassword == user.Password)
-            {
-                return BadRequest("Password does not match.");
-            }
 
             _users.Add(user);
 

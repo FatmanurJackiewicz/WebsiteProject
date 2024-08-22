@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using FluentValidation;
 
 namespace AuthAPI.Controllers
 {
@@ -33,6 +34,14 @@ namespace AuthAPI.Controllers
             var userList = _appDbContext.Users
                 .Include(u => u.Role)
                 .Include(u => u.RefreshTokens)
+                .Select(u => new {
+                    u.Id,
+                    u.Username,
+                    u.Email,
+                    RoleName = u.Role.Name,
+                    u.RoleId,
+                    RefreshTokens = u.RefreshTokens.Select(x => x.Token)
+                })
                 .ToList();
             return Ok(userList);
         }
@@ -102,11 +111,13 @@ namespace AuthAPI.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterDto registerDto)
+        public IActionResult Register([FromBody] RegisterDto registerDto, [FromServices] IValidator<RegisterDto> dtoValidator)
         {
-            if (registerDto.Password != registerDto.ConfirmPassword)
+            var validationResult = dtoValidator.Validate(registerDto);
+            if (!validationResult.IsValid)
             {
-                return BadRequest("Passwords do not match.");
+                var errorMessages = string.Join(", ", validationResult.Errors.Select(x => x.ErrorMessage));
+                return BadRequest(errorMessages);
             }
 
             var userExists = _appDbContext.Users.Any(u => u.Email == registerDto.Email);
@@ -117,7 +128,7 @@ namespace AuthAPI.Controllers
 
             var passwordHash = HashPassword(registerDto.Password);
 
-            var user = new UserModel()
+            var user = new User()
             {
                 Username = registerDto.Username,
                 Email = registerDto.Email.ToLower(), // Normalize email case
@@ -234,7 +245,7 @@ namespace AuthAPI.Controllers
                 return sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
-        private async Task SendResetPasswordEmailAsync(UserModel user)
+        private async Task SendResetPasswordEmailAsync(User user)
         {
             const string host = "smtp.gmail.com";
             const int port = 587;
@@ -259,7 +270,7 @@ namespace AuthAPI.Controllers
 
             await client.SendMailAsync(mail);
         }
-        private string GenerateJwtToken(UserModel user)
+        private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {

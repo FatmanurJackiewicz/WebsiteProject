@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace AuthAPI.Models;
 
-public class UserModel
+public class User
 {
     public int Id { get; set; }
     public string Username { get; set; }
@@ -16,7 +16,7 @@ public class UserModel
     public int RoleId { get; set; }
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
-    public virtual RoleModel Role { get; set; }
+    public virtual Role Role { get; set; } = default!;
 
 }
 

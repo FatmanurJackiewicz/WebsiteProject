@@ -11,7 +11,7 @@ public class RefreshToken
     public bool IsRevoked { get; set; }
     public int UserId { get; set; }
 
-    public virtual UserModel User { get; set; }
+    public virtual User User { get; set; }
 }
 
 

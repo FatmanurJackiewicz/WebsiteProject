@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AuthAPI.ModelConfigurations;
 
-public class UserModelConfigurations : IEntityTypeConfiguration<UserModel>
+public class UserModelConfigurations : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<UserModel> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
 
         builder.HasKey(u => u.Id);

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AuthAPI.ModelConfigurations;
 
-public class RoleModelConfigurations : IEntityTypeConfiguration<RoleModel>
+public class RoleModelConfigurations : IEntityTypeConfiguration<Role>
 {
-    public void Configure(EntityTypeBuilder<RoleModel> builder)
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.HasKey(u => u.Id);
         builder.Property(u => u.Id)
@@ -18,8 +18,8 @@ public class RoleModelConfigurations : IEntityTypeConfiguration<RoleModel>
 
         //user ile olan ilişkisini burada da belirtmeye gerek var mı?
         builder.HasData(
-            new RoleModel { Id = 1, Name = "admin" },
-            new RoleModel { Id = 2, Name = "commenter" });
+            new Role { Id = 1, Name = "admin" },
+            new Role { Id = 2, Name = "commenter" });
             
     }
 }

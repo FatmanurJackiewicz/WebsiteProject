@@ -23,9 +23,9 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
                .IsRequired();
 
         builder.HasOne(rt => rt.User)
-               .WithMany()
+               .WithMany(u => u.RefreshTokens)
                .HasForeignKey(rt => rt.UserId)
                .IsRequired()
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

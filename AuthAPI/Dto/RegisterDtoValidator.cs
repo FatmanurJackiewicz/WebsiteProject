@@ -11,8 +11,4 @@ public class RegisterDtoValidator : AbstractValidator<RegisterDto>
         RuleFor(x => x.Password).MinimumLength(8).WithMessage("Password should be minimum 8 character!");
     }
 
-
-
-
-
 }

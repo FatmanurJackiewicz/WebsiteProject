@@ -1,6 +1,6 @@
 ﻿namespace DataAPI.DTOs.BlogPosts
 {
-    public class CreateBlogPosts
+    public class UpdateBlogPostsDto
     {
         public int Id { get; set; }
 

@@ -29,7 +29,7 @@ public class ContactMessagesController : ControllerBase
     }
 
     [HttpPost("createContactMessages")]
-    public async Task<IActionResult> CreateContactMessages([FromBody] CreateContactMessages createDto)
+    public async Task<IActionResult> CreateContactMessages([FromBody] CreateContactMessagesDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -53,7 +53,7 @@ public class ContactMessagesController : ControllerBase
     }
 
     [HttpPut("updateContactMessages/{id}")]
-    public async Task<IActionResult> UpdateContactMessages([FromBody] UpdateContactMessages updateDto)
+    public async Task<IActionResult> UpdateContactMessages([FromBody] UpdateContactMessagesDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

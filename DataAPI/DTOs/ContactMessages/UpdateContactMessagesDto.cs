@@ -2,8 +2,11 @@
 
 namespace DataAPI.DTOs.ContactMessages;
 
-public class CreateContactMessages
+public class UpdateContactMessagesDto
 {
+    [Required]
+    public int Id { get; set; }
+
     [Required]
     public string Name { get; set; } = string.Empty;
 

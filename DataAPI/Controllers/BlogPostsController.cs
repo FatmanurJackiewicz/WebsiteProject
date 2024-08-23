@@ -1,5 +1,5 @@
 ﻿using DataAPI.Data;
-using DataAPI.DTOs.Educations;
+using DataAPI.DTOs.BlogPosts;
 using DataAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,28 +32,65 @@ namespace DataAPI.Controllers
         }
 
 
-        [HttpPost("createBlogPosts")]
+        [HttpPost("createBlogPost")]
         public async Task<IActionResult> CreateBlogPosts([FromBody] CreateBlogPostsDto createDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            //business rules
-            if (createDto.StartDate > createDto.EndDate)
-                return BadRequest("Start date cannot be later than end date.");
-
-            var newEducation = new Educations
+            var newBlogPosts = new BlogPosts
             {
-                Degree = createDto.Degree,
-                School = createDto.School,
-                StartDate = createDto.StartDate,
-                EndDate = createDto.EndDate
+                Title = createDto.Title,
+                Context = createDto.Context,
+                PublishDate = createDto.PublishDate,
+                AuthorId = createDto.AuthorId
             };
 
-            _appDbContext.Educations.Add(newEducation);
+            _appDbContext.BlogPosts.Add(newBlogPosts);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok(newEducation);
+            return Ok(newBlogPosts);
         }
+
+        [HttpPut("updateBlogPost")]
+        public async Task<IActionResult> UpdateBlogPost([FromBody] UpdateBlogPostsDto updateDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var existBlogPost = await _appDbContext.BlogPosts.FindAsync(updateDto.Id);
+
+            if (existBlogPost is null)
+                return NotFound("BlogPost not found");
+
+
+            existBlogPost.Title = updateDto.Title;
+            existBlogPost.Context = updateDto.Context;
+            existBlogPost.PublishDate = updateDto.PublishDate;
+            existBlogPost.AuthorId = updateDto.AuthorId;
+
+            _appDbContext.BlogPosts.Update(existBlogPost);
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok(existBlogPost);
+        }
+
+
+        [HttpDelete("deleteBlogPost/{id}")]
+        public async Task<IActionResult> DeleteexistBlogPost([FromRoute] int id)
+        {
+            var existBlogPost = await _appDbContext.BlogPosts.FindAsync(id);
+
+            if (existBlogPost == null)
+            {
+                return NoContent();
+            }
+
+            _appDbContext.BlogPosts.Remove(existBlogPost);
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }

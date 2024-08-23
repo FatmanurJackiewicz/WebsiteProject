@@ -10,11 +10,11 @@ namespace DataAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PersonelInfoController : ControllerBase
+public class PersonalInfoController : ControllerBase
 {
     private static AppDbContext _appDbContext;
 
-    public PersonelInfoController(AppDbContext appDbContext)
+    public PersonalInfoController(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
     }
@@ -62,7 +62,7 @@ public class PersonelInfoController : ControllerBase
         var existPersonalInfo = await _appDbContext.PersonalInfo.FindAsync(updateDto.Id);
 
         if (existPersonalInfo is null)
-            return NotFound("PersonalInfo bulunamadi");
+            return NotFound("PersonalInfo not found.");
 
         existPersonalInfo.About = updateDto.About;
         existPersonalInfo.Name = updateDto.Name;
@@ -87,6 +87,6 @@ public class PersonelInfoController : ControllerBase
         _appDbContext.PersonalInfo.Remove(personalInfo);
         await _appDbContext.SaveChangesAsync();
 
-        return Ok();
+        return Ok("Successfully deleted.");
     }
 }

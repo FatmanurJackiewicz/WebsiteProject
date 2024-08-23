@@ -56,7 +56,7 @@ public class AboutMeController : ControllerBase
         var existAboutMe = await _appDbContext.AboutMe.FindAsync(createDto.Id);
 
         if (existAboutMe is null)
-            return NotFound("aboutme bulunamadi");
+            return NotFound("AboutMe is not found");
 
         existAboutMe.Introduction = createDto.Introduction;
         existAboutMe.ImageUrl1 = createDto.ImageUrl1;
@@ -79,8 +79,8 @@ public class AboutMeController : ControllerBase
         }
 
         _appDbContext.AboutMe.Remove(existAboutMe);
-        await _appDbContext.SaveChangesAsync(); 
-        
-        return Ok();
+        await _appDbContext.SaveChangesAsync();
+
+        return Ok("Deleted successfully.");
     }
 }

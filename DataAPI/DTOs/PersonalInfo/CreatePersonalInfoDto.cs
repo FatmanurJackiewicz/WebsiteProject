@@ -2,11 +2,8 @@
 
 namespace DataAPI.DTOs.PersonalInfo;
 
-public class UpdatePersonalInfo
+public class CreatePersonalInfoDto
 {
-    [Required]
-    public int Id { get; set; }
-
     [Required]
     public string About { get; set; } = string.Empty;
 

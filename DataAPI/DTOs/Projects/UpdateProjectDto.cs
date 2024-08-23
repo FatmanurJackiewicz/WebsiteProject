@@ -2,8 +2,11 @@
 
 namespace DataAPI.DTOs.Projects;
 
-public class CreateProjectsDto
+public class UpdateProjectDto
 {
+    [Required]
+    public int Id { get; set; }
+
     [Required]
     public string Title { get; set; } = string.Empty;
 

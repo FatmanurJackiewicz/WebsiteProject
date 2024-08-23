@@ -2,11 +2,8 @@
 
 namespace DataAPI.DTOs.Educations;
 
-public class UpdateEducationsDto
+public class CreateEducationDto
 {
-    [Required]
-    public int Id { get; set; }
-
     [Required]
     public string Degree { get; set; } = string.Empty;
 

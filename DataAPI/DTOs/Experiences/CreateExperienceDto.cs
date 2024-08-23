@@ -2,7 +2,7 @@
 
 namespace DataAPI.DTOs.Experiences;
 
-public class CreateExperiencesDto
+public class CreateExperienceDto
 {
     [Required]
     public string Title { get; set; } = string.Empty;

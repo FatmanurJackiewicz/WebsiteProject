@@ -2,7 +2,7 @@
 
 namespace DataAPI.DTOs.Experiences;
 
-public class UpdateExperiencesDto
+public class UpdateExperienceDto
 {
     [Required]
     public int Id { get; set; }

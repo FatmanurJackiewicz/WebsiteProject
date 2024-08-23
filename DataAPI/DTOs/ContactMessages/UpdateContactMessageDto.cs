@@ -2,7 +2,7 @@
 
 namespace DataAPI.DTOs.ContactMessages;
 
-public class UpdateContactMessagesDto
+public class UpdateContactMessageDto
 {
     [Required]
     public int Id { get; set; }

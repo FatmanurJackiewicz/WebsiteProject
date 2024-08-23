@@ -4,12 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 <<<<<<< HEAD
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileAPI", "FileAPI\FileAPI.csproj", "{73B70AEC-A629-4861-B7CD-34AF38D90B80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthAPI", "AuthAPI\AuthAPI.csproj", "{2B447945-FF83-43D5-B9E7-6C7DBB5F72A5}"
 =======
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAPI", "DataAPI\DataAPI.csproj", "{A7F92367-8996-43C3-BAB4-A607DCE88B39}"
 >>>>>>> DataAPI-branch
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanelMVC", "AdminPanelMVC\AdminPanelMVC.csproj", "{B5AEDEE9-9E51-48C9-A0A0-A2F4CB9B2A4F}"
+>>>>>>> AdminPanelMVC
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< HEAD
 <<<<<<< HEAD
 		{73B70AEC-A629-4861-B7CD-34AF38D90B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73B70AEC-A629-4861-B7CD-34AF38D90B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -32,6 +37,12 @@ Global
 		{A7F92367-8996-43C3-BAB4-A607DCE88B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7F92367-8996-43C3-BAB4-A607DCE88B39}.Release|Any CPU.Build.0 = Release|Any CPU
 >>>>>>> DataAPI-branch
+=======
+		{B5AEDEE9-9E51-48C9-A0A0-A2F4CB9B2A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5AEDEE9-9E51-48C9-A0A0-A2F4CB9B2A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5AEDEE9-9E51-48C9-A0A0-A2F4CB9B2A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5AEDEE9-9E51-48C9-A0A0-A2F4CB9B2A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> AdminPanelMVC
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

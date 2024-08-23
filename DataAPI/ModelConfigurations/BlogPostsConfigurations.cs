@@ -10,26 +10,17 @@ namespace DataAPI.ModelConfigurations
         {
             builder.HasKey(bp => bp.Id);
 
-            // Columns
-            builder.Property(bp => bp.Id)
-                   .IsRequired()
-                   .HasColumnName("Id")
-                   .HasColumnType("int");
-
             builder.Property(bp => bp.Title)
                    .IsRequired()
                    .HasMaxLength(100)
-                   .HasColumnName("Title")
                    .HasColumnType("varchar(100)");
 
             builder.Property(bp => bp.Content)
                    .IsRequired()
-                   .HasColumnName("Content")
                    .HasColumnType("text");
 
             builder.Property(bp => bp.PublishDate)
                    .IsRequired()
-                   .HasColumnName("PublishDate")
                    .HasColumnType("datetime");
 
 

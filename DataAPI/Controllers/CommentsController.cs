@@ -42,7 +42,7 @@ namespace DataAPI.Controllers
             var newComment = new Comments
             {
                 Content = createDto.Content,
-                CreatedTime = createDto.CreatedTime,
+                CreatedDate = createDto.CreatedTime,
                 IsApproved = createDto.IsApproved,
                 BlogPostId = createDto.BlogPostId,
                 UserId = createDto.UserId
@@ -67,7 +67,7 @@ namespace DataAPI.Controllers
 
 
             existComments.Content = updateDto.Content;
-            existComments.CreatedTime = updateDto.CreatedTime;
+            existComments.CreatedDate = updateDto.CreatedTime;
             existComments.IsApproved = updateDto.IsApproved;
             existComments.BlogPostId = updateDto.BlogPostId;
             existComments.UserId = updateDto.UserId;

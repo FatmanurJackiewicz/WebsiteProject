@@ -33,7 +33,7 @@ namespace DataAPI.Controllers
 
 
         [HttpPost("createBlogPost")]
-        public async Task<IActionResult> CreateBlogPosts([FromBody] CreateBlogPostsDto createDto)
+        public async Task<IActionResult> CreateBlogPosts([FromBody] CreateBlogPostDto createDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -53,7 +53,7 @@ namespace DataAPI.Controllers
         }
 
         [HttpPut("updateBlogPost")]
-        public async Task<IActionResult> UpdateBlogPost([FromBody] UpdateBlogPostsDto updateDto)
+        public async Task<IActionResult> UpdateBlogPost([FromBody] UpdateBlogPostDto updateDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -77,7 +77,7 @@ namespace DataAPI.Controllers
 
 
         [HttpDelete("deleteBlogPost/{id}")]
-        public async Task<IActionResult> DeleteexistBlogPost([FromRoute] int id)
+        public async Task<IActionResult> DeleteBlogPost([FromRoute] int id)
         {
             var existBlogPost = await _appDbContext.BlogPosts.FindAsync(id);
 

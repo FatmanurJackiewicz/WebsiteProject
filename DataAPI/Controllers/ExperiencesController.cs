@@ -30,7 +30,7 @@ public class ExperiencesController : ControllerBase
 
     
     [HttpPost("createExperinces")]
-    public async Task<IActionResult> CreateExperiences([FromBody] CreateExperiencesDto createDto)
+    public async Task<IActionResult> CreateExperiences([FromBody] CreateExperienceDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -54,7 +54,7 @@ public class ExperiencesController : ControllerBase
 
     
     [HttpPut("updateExperince")]
-    public async Task<IActionResult> UpdateExperiences([FromBody] UpdateExperiencesDto updateDto)
+    public async Task<IActionResult> UpdateExperiences([FromBody] UpdateExperienceDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

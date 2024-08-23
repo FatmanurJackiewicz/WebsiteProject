@@ -32,7 +32,7 @@ public class EducationsController : ControllerBase
     }
 
     [HttpPost("createEducation")]
-    public async Task<IActionResult> CreateEducations([FromBody] CreateEducationsDto createDto)
+    public async Task<IActionResult> CreateEducations([FromBody] CreateEducationDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -56,7 +56,7 @@ public class EducationsController : ControllerBase
     }
 
     [HttpPut("updateEducation")]
-    public async Task<IActionResult> UpdateEducations([FromBody] UpdateEducationsDto updateDto)
+    public async Task<IActionResult> UpdateEducations([FromBody] UpdateEducationDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

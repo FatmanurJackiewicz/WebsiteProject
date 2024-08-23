@@ -29,7 +29,7 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpPost("createProjects")]
-    public async Task<IActionResult> CreateProject([FromBody] CreateProjectsDto createDto)
+    public async Task<IActionResult> CreateProject([FromBody] CreateProjectDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -48,7 +48,7 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpPut("updateProjects/{id}")]
-    public async Task<IActionResult> UpdateProject([FromBody] UpdateProjectsDto updateDto)
+    public async Task<IActionResult> UpdateProject([FromBody] UpdateProjectDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

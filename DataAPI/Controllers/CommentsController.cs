@@ -1,7 +1,8 @@
 ﻿using DataAPI.Data;
-using DataAPI.DTOs.BlogPosts;
+using DataAPI.DTOs.Comments;
 using DataAPI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataAPI.Controllers
@@ -23,37 +24,38 @@ namespace DataAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var blogPosts = await _appDbContext.BlogPosts.FindAsync(id);
+            var comment = await _appDbContext.Comments.FindAsync(id);
 
-            if (blogPosts is null)
+            if (comment is null)
                 return NotFound("Comments not found");
 
-            return Ok(blogPosts);
+            return Ok(comment);
         }
 
 
         [HttpPost("createComment")]
-        public async Task<IActionResult> CreateComments([FromBody] CreateCommentsDto createDto)
+        public async Task<IActionResult> CreateComments([FromBody] CreateCommentDto createDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var newBlogPosts = new BlogPosts
+            var newComment = new Comments
             {
-                Title = createDto.Title,
-                Context = createDto.Context,
-                PublishDate = createDto.PublishDate,
-                AuthorId = createDto.AuthorId
+                Content = createDto.Content,
+                CreatedTime = createDto.CreatedTime,
+                IsApproved = createDto.IsApproved,
+                BlogPostId = createDto.BlogPostId,
+                UserId = createDto.UserId
             };
 
-            _appDbContext.BlogPosts.Add(newBlogPosts);
+            _appDbContext.Comments.Add(newComment);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok(newBlogPosts);
+            return Ok(newComment);
         }
 
         [HttpPut("updateComment")]
-        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentsDto updateDto)
+        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentDto updateDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -64,12 +66,13 @@ namespace DataAPI.Controllers
                 return NotFound("Comments not found");
 
 
-            existComments.Title = updateDto.Title;
-            existComments.Context = updateDto.Context;
-            existComments.PublishDate = updateDto.PublishDate;
-            existComments.AuthorId = updateDto.AuthorId;
-
-            _appDbContext.BlogPosts.Update(existComments);
+            existComments.Content = updateDto.Content;
+            existComments.CreatedTime = updateDto.CreatedTime;
+            existComments.IsApproved = updateDto.IsApproved;
+            existComments.BlogPostId = updateDto.BlogPostId;
+            existComments.UserId = updateDto.UserId;
+            
+            _appDbContext.Comments.Update(existComments);
             await _appDbContext.SaveChangesAsync();
 
             return Ok(existComments);
@@ -86,10 +89,10 @@ namespace DataAPI.Controllers
                 return NoContent();
             }
 
-            _appDbContext.BlogPosts.Remove(existComments);
+            _appDbContext.Comments.Remove(existComments);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Comment deleted");
         }
 
 

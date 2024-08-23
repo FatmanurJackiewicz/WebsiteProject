@@ -33,7 +33,7 @@ public class PersonalInfoController : ControllerBase
     }
 
     [HttpPost("createPersonalInfo")]
-    public async Task<IActionResult> PostPersonalInfo(CreatePersonalInfo createDto)
+    public async Task<IActionResult> PostPersonalInfo(CreatePersonalInfoDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -53,7 +53,7 @@ public class PersonalInfoController : ControllerBase
     }
 
     [HttpPut("updatePersonalInfo/{id}")]
-    public async Task<IActionResult> PutPersonalInfo(UpdatePersonalInfo updateDto)
+    public async Task<IActionResult> PutPersonalInfo(UpdatePersonalInfoDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

@@ -1,12 +1,11 @@
-﻿namespace DataAPI.Models
-{
-    public class PersonalInfo
-    {
-        public int Id { get; set; }
-        public string About { get; set; }
+﻿namespace DataAPI.Models;
 
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public DateOnly BirthDate { get; set; }
-    }
+public class PersonalInfo
+{
+    public int Id { get; set; }
+    public string About { get; set; }
+
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public DateTime BirthDate { get; set; }
 }

@@ -22,6 +22,7 @@ namespace DataAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AboutMeConfigurations());
+            modelBuilder.ApplyConfiguration(new BlogPostsConfigurations());
             modelBuilder.ApplyConfiguration(new ContactMessagesConfigurations());
             modelBuilder.ApplyConfiguration(new EducationsConfigurations());
             modelBuilder.ApplyConfiguration(new ExperiencesConfigurations());

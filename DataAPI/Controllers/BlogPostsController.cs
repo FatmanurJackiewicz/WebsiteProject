@@ -41,7 +41,7 @@ namespace DataAPI.Controllers
             var newBlogPosts = new BlogPosts
             {
                 Title = createDto.Title,
-                Context = createDto.Context,
+                Content = createDto.Context,
                 PublishDate = createDto.PublishDate,
                 AuthorId = createDto.AuthorId
             };
@@ -65,7 +65,7 @@ namespace DataAPI.Controllers
 
 
             existBlogPost.Title = updateDto.Title;
-            existBlogPost.Context = updateDto.Context;
+            existBlogPost.Content = updateDto.Context;
             existBlogPost.PublishDate = updateDto.PublishDate;
             existBlogPost.AuthorId = updateDto.AuthorId;
 

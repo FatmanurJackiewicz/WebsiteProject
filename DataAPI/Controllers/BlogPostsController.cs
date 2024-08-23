@@ -1,4 +1,6 @@
 ﻿using DataAPI.Data;
+using DataAPI.DTOs.Educations;
+using DataAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,13 +23,37 @@ namespace DataAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var educations = await _appDbContext.Educations.FindAsync(id);
+            var blogPosts = await _appDbContext.BlogPosts.FindAsync(id);
 
-            if (educations is null)
-                return NotFound("Educations not found");
+            if (blogPosts is null)
+                return NotFound("BlogPosts not found");
 
-            return Ok(educations);
+            return Ok(blogPosts);
         }
 
+
+        [HttpPost("createBlogPosts")]
+        public async Task<IActionResult> CreateBlogPosts([FromBody] CreateBlogPostsDto createDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            //business rules
+            if (createDto.StartDate > createDto.EndDate)
+                return BadRequest("Start date cannot be later than end date.");
+
+            var newEducation = new Educations
+            {
+                Degree = createDto.Degree,
+                School = createDto.School,
+                StartDate = createDto.StartDate,
+                EndDate = createDto.EndDate
+            };
+
+            _appDbContext.Educations.Add(newEducation);
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok(newEducation);
+        }
     }
 }

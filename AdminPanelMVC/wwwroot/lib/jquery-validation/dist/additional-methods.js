@@ -295,7 +295,10 @@ $.validator.addMethod( "cifES", function( value, element ) {
 $.validator.addMethod( "cnhBR", function( value ) {
 
   // Removing special characters from value
-  value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
+	value = value.replace(/([~!
+	  
+		
+		#$ %^&* ()_ +=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
 
   // Checking value to have 11 digits only
   if ( value.length !== 11 ) {

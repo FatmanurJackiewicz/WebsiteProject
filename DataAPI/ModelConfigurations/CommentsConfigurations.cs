@@ -37,10 +37,11 @@ namespace DataAPI.ModelConfigurations
                    .HasForeignKey(c => c.BlogPostId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            //builder.HasOne(c => c.User)
-            //       .WithMany()  // Assuming User can have multiple Comments
-            //       .HasForeignKey(c => c.UserId)
-            //       .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(e => e.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

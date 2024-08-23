@@ -29,7 +29,14 @@ namespace DataAPI.ModelConfigurations
             builder.Property(e => e.EndDate)
                    .HasColumnType("date");
 
+            builder.HasOne(e => e.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
-    }
 
+    }    
 }
+
+

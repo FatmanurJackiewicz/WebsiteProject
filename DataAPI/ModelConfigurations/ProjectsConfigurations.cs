@@ -24,6 +24,10 @@ public class ProjectsConfigurations : IEntityTypeConfiguration<Projects>
             .HasMaxLength(255)
             .HasColumnType("varchar(255)");
 
-
+        builder.HasOne(e => e.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
     }
 }

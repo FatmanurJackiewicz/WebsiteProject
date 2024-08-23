@@ -26,7 +26,7 @@ namespace DataAPI.ModelConfigurations
 
             builder.Property(e => e.EndDate)
                 .HasColumnType("date")
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(e => e.Description)
                 .HasColumnType("text")

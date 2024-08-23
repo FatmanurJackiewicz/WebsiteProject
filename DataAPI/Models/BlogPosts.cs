@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Documents;
-
-namespace DataAPI.Models
+﻿namespace DataAPI.Models
 {
     public class BlogPosts
     {
@@ -11,6 +9,6 @@ namespace DataAPI.Models
         public DateTime PublishDate { get; set; }
         public int AuthorId { get; set; }
 
-
+        public virtual ICollection<Comments> Comments { get; set; }
     }
 }

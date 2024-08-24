@@ -1,6 +1,4 @@
 
-using Microsoft.Extensions.FileProviders;
-
 namespace FileAPI
 {
     public class Program
@@ -31,14 +29,6 @@ namespace FileAPI
 
 
             app.MapControllers();
-
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                RequestPath = new PathString("/Resources")
-            });
-                
 
             app.Run();
         }

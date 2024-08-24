@@ -4,10 +4,16 @@ using System.Diagnostics;
 
 namespace AdminPanelMVC.Controllers
 {
-    public class HomeController : Controller
-    {
+	public class HomeController : Controller
+	{
+		public IActionResult Index()
+		{
+			return View();
+		}
 
-       
-
-    }
+		public IActionResult Deneme()
+		{
+			return View();
+		}
+	}
 }

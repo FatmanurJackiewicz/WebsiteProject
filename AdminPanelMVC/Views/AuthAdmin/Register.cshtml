@@ -1,10 +1,12 @@
-﻿@using AdminPanelMVC.Models.AuthAdmin;
+﻿@* @{
+	Layout = null;
+} *@
+
+@using AdminPanelMVC.Models.AuthAdmin;
 @model RegisterViewModel;
 
-@{
-	Layout = null;
-}
 
+<!DOCTYPE html>
 <html lang="en" style="--initial-loader-bg: #FFFFFF; --initial-loader-color: #696CFF;" class="wf-publicsans-n4-active wf-active">
 <head>
 	<meta charset="UTF-8">
@@ -1524,9 +1526,9 @@
 												<div class="v-input__control">
 													<div class="v-field v-field--center-affix v-field--variant-outlined v-theme--light v-locale--is-ltr" role="textbox">
 														<div class="v-field__field" data-no-activator="">
-															<label class="v-label v-field-label" asp-for="UserName">UserName</label>
-															<input asp-for="UserName" autofocus="" placeholder="Johndoe" size="1" type="text" id="input-35" aria-describedby="input-35-messages" class="v-field__input">
-															<span asp-validation-for="UserName" class="text-danger"></span>
+															<label class="v-label v-field-label" asp-for="Username">UserName</label>
+															<input asp-for="Username" autofocus="" placeholder="Johndoe" size="1" type="text" class="v-field__input">
+															<span asp-validation-for="Username" class="text-danger"></span>
 														</div>
 														<div class="v-field__outline">
 															<div class="v-field__outline__start"></div>
@@ -1545,7 +1547,7 @@
 													<div class="v-field v-field--center-affix v-field--variant-outlined v-theme--light v-locale--is-ltr" role="textbox">
 														<div class="v-field__field" data-no-activator="">
 															<label class="v-label v-field-label" asp-for="Email">Email</label>
-															<input asp-for="Email"placeholder="johndoe@email.com" size="1" type="email" id="input-37" aria-describedby="input-37-messages" class="v-field__input">
+															<input asp-for="Email"placeholder="johndoe@email.com" size="1" type="email" class="v-field__input">
 															<span asp-validation-for="Email" class="text-danger"></span>
 														</div>
 														<div class="v-field__outline">
@@ -1565,7 +1567,7 @@
 													<div class="v-field v-field--appended v-field--center-affix v-field--variant-outlined v-theme--light v-locale--is-ltr" role="textbox">
 														<div class="v-field__field" data-no-activator="">
 															<label class="v-label v-field-label" asp-for="Password">Password</label>
-															<input asp-for="Password" placeholder="············" size="1" type="password" id="input-39" aria-describedby="input-39-messages" class="v-field__input">
+															<input asp-for="Password" placeholder="············" size="1" type="password" class="v-field__input">
 															<span asp-validation-for="Password" class="text-danger"></span>
 														</div>
 														<div class="v-field__append-inner">
@@ -1672,7 +1674,10 @@
 		if (primaryColor) {
 			document.documentElement.style.setProperty('--initial-loader-color', primaryColor);
 		}
+
+		
 	</script>
 </body>
 
 </html>
+

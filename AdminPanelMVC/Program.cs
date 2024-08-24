@@ -9,7 +9,13 @@ namespace AdminPanelMVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+            builder.Services.AddHttpClient("ApiClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7150/");
+
+            });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

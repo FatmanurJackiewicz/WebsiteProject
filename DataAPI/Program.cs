@@ -19,7 +19,7 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
 
-        var app = builder.Build();
+		var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -30,7 +30,7 @@ public class Program
 
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        context.Database.EnsureDeleted();
+        //context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
         app.UseHttpsRedirection();
 

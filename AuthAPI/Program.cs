@@ -1,3 +1,4 @@
+using AuthAPI.DataAuth;
 using AuthAPI.Dto;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace AuthAPI
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {
@@ -92,7 +93,7 @@ namespace AuthAPI
 
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            context.Database.EnsureDeleted();
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             app.UseHttpsRedirection();

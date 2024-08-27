@@ -4,8 +4,6 @@ namespace DataAPI.DTOs.AboutMe;
 
 public class UpdateAboutMeDto
 {
-    [Required]
-    public int Id { get; set; }
 
     [Required]
     public string Introduction { get; set; } = string.Empty;

@@ -19,17 +19,25 @@ public class PersonalInfoController : ControllerBase
         _appDbContext = appDbContext;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetPersonalInfo([FromRoute] int id)
+    [HttpGet("personal-info")]
+    public async Task<IActionResult> GetPersonalInfo()
     {
-        var personalInfo = await _appDbContext.PersonalInfo.FindAsync(id);
+        var personalInfo = _appDbContext.PersonalInfo.FirstOrDefault();
 
         if (personalInfo == null)
         {
             return NotFound();
         }
 
-        return Ok(personalInfo);
+        var personalInfoDto = new CreatePersonalInfoDto
+        {
+            About = personalInfo.About,
+            Name = personalInfo.Name,
+            Surname = personalInfo.Surname,
+            BirthDate = personalInfo.BirthDate
+        };
+
+        return Ok(personalInfoDto);
     }
 
     [HttpPost("createPersonalInfo")]
@@ -52,14 +60,14 @@ public class PersonalInfoController : ControllerBase
         return Ok(newPersonalInfo);
     }
 
-    [HttpPut("updatePersonalInfo/{id}")]
+    [HttpPost("updatePersonalInfo")]
     public async Task<IActionResult> PutPersonalInfo(UpdatePersonalInfoDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
 
-        var existPersonalInfo = await _appDbContext.PersonalInfo.FindAsync(updateDto.Id);
+        var existPersonalInfo = _appDbContext.PersonalInfo.FirstOrDefault();
 
         if (existPersonalInfo is null)
             return NotFound("PersonalInfo not found.");
@@ -74,19 +82,5 @@ public class PersonalInfoController : ControllerBase
 
         return NoContent();
     }
-
-    [HttpDelete("deletePersonalInfo/{id}")]
-    public async Task<IActionResult> DeletePersonalInfo([FromRoute] int id)
-    {
-        var personalInfo = await _appDbContext.PersonalInfo.FindAsync(id);
-        if (personalInfo == null)
-        {
-            return NoContent();
-        }
-
-        _appDbContext.PersonalInfo.Remove(personalInfo);
-        await _appDbContext.SaveChangesAsync();
-
-        return Ok("Successfully deleted.");
-    }
+    
 }

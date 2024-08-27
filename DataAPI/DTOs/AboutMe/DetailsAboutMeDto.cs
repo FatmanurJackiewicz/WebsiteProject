@@ -2,9 +2,8 @@
 
 namespace DataAPI.DTOs.AboutMe;
 
-public class CreateAboutMeDto
+public class DetailsAboutMeDto
 {
-
     [Required]
     public string Introduction { get; set; } = string.Empty;
 

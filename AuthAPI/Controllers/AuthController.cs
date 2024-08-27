@@ -12,13 +12,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using AuthAPI.DataAuth;
 
 namespace AuthAPI.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
-    {        
+    {
         private static AppDbContext _appDbContext;
         private static IConfiguration _configuration;
 
@@ -28,6 +31,19 @@ namespace AuthAPI.Controllers
             _configuration = configuration;
         }
 
+        //GetUser
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetUser([FromRoute] int userId)
+        {
+            var user = _appDbContext.Users.Find(userId);
+
+            if (user is null)
+                return BadRequest("Kullanıcı bulunamadi");
+
+            return Ok(user);
+        }         
+
+        //GetUserList
         [HttpGet("UserList")]
         public IActionResult GetUsers()
         {
@@ -46,6 +62,72 @@ namespace AuthAPI.Controllers
             return Ok(userList);
         }
 
+        //UpdateUser
+        [HttpPost("updateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto updateDto)
+        {
+            var userToUpdate = _appDbContext.Users
+                .Include(u => u.Role)
+                .SingleOrDefault(u => u.Email == updateDto.OldEmail);
+
+            if (userToUpdate is null)
+                return BadRequest("Kullanıcı bulunamadi");
+
+            // Kullanıcı bilgilerini güncelle
+            userToUpdate.Username = updateDto.Username;
+            userToUpdate.Email = updateDto.Email;
+
+            _appDbContext.Users.Update(userToUpdate);
+            await _appDbContext.SaveChangesAsync();
+
+            // Yeni JWT Token ve Refresh Token üret
+            var newJwtToken = GenerateJwtToken(userToUpdate);
+            var newRefreshToken = GenerateRefreshToken();
+
+            // Refresh token modelini güncelle veya yeni bir tane oluştur
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = newRefreshToken,
+                UserId = userToUpdate.Id,
+                ExpiryDate = DateTime.UtcNow.AddDays(7)
+            };
+
+            _appDbContext.RefreshTokens.Add(refreshTokenEntity);
+            await _appDbContext.SaveChangesAsync();
+
+            // Kullanıcıya yeni token bilgilerini döndür
+            var tokenResponse = new TokenResponseDto
+            {
+                AccessToken = newJwtToken,
+                RefreshToken = newRefreshToken,
+				Expiration = refreshTokenEntity.ExpiryDate
+			};
+
+            return Ok(tokenResponse);
+        }
+
+        //DeleteUser
+        [HttpPost("delete/{userId}")]
+        public IActionResult Delete([FromRoute] int userId)
+        {
+            var user = _appDbContext.Users
+                .Include(u => u.Role)
+                .Include(u => u.RefreshTokens)
+                .SingleOrDefault(u => u.Id == userId);
+
+            if (user is null)
+                return NoContent();
+
+            //İlişkili yerlerin nasıl silineceği ile ilgili hata alındı.
+            _appDbContext.RefreshTokens.RemoveRange(user.RefreshTokens);
+
+            _appDbContext.Users.Remove(user);
+            _appDbContext.SaveChanges();
+
+            return Ok();
+        }
+
+        //Login
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginDto dto)
         {
@@ -56,14 +138,23 @@ namespace AuthAPI.Controllers
 
             var loginPasswordHash = HashPassword(dto.Password);
 
-            var user = _appDbContext.Users.SingleOrDefault(u => u.Email == dto.Email && u.PasswordHash == loginPasswordHash);
+            var user = _appDbContext.Users
+                .Include(u => u.Role) // Role bilgilerini dahil et
+                .Include(u => u.RefreshTokens) // Refresh tokenları dahil et
+                .SingleOrDefault(u => u.Email == dto.Email && u.PasswordHash == loginPasswordHash);
 
             if (user == null)
             {
                 return BadRequest("Username or Password is wrong.");
             }
 
-            if(_appDbContext.RefreshTokens.Any())
+            if (dto.Project == "admin" && user.Role.Name != "admin")
+                return BadRequest("Admin paneline giriş yetkiniz yoktur.");
+
+            if (dto.Project == "portfoy" && user.Role.Name != "commenter")
+                return BadRequest("Bu projeye giriş yetkiniz yoktur.");
+
+            if (_appDbContext.RefreshTokens.Any())
             {
                 var list = _appDbContext.RefreshTokens.Where(u => u.UserId == user.Id).ToList();
                 list.ForEach(t => t.IsRevoked = true);
@@ -89,7 +180,8 @@ namespace AuthAPI.Controllers
             var tokenResponse = new TokenResponseDto
             {
                 AccessToken = jwt,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                Expiration = refreshTokenModel.ExpiryDate
             };
 
             if (tokenResponse is null)
@@ -110,6 +202,7 @@ namespace AuthAPI.Controllers
             return Ok(tokenResponse);
         }
 
+        //Register
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterDto registerDto, [FromServices] IValidator<RegisterDto> dtoValidator)
         {
@@ -133,7 +226,7 @@ namespace AuthAPI.Controllers
                 Username = registerDto.Username,
                 Email = registerDto.Email.ToLower(), // Normalize email case
                 PasswordHash = passwordHash,
-                RoleId = 2
+                RoleId = registerDto.Project == "admin" ? 1 : 2
             };
 
             _appDbContext.Users.Add(user);
@@ -143,7 +236,7 @@ namespace AuthAPI.Controllers
 
         }
 
-
+        //RefreshToken
         [HttpGet("Refresh")]
         public IActionResult Refresh([FromQuery] string token)
         {
@@ -208,7 +301,7 @@ namespace AuthAPI.Controllers
 
             await SendResetPasswordEmailAsync(user);
 
-            return Ok("Password reset email has been sent. Please check your email.");
+            return Ok();
         }
 
         [HttpPost("renew-password")]
@@ -262,7 +355,7 @@ namespace AuthAPI.Controllers
             {
                 From = new MailAddress(from),
                 Subject = "Şifre Sıfırlama",
-                Body = $"Merhaba {user.Username}, <br> Şifrenizi sıfırlamak için validasyon kodu '{user.ResetPasswordToken}'",
+                Body = $"Merhaba {user.Username}, <br> Şifrenizi sıfırlamak için <a href='https://localhost:7239/renew-password/verificationCode={user.ResetPasswordToken}'>tıklayınız</a>.",
                 IsBodyHtml = true,
             };
 
@@ -275,8 +368,9 @@ namespace AuthAPI.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
-                //new Claim(ClaimTypes.Role, user.Role.Name)
+                new Claim(ClaimTypes.Role, user.Role.Name)
             };
 
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -300,5 +394,6 @@ namespace AuthAPI.Controllers
         {
             return Guid.NewGuid().ToString();
         }
+        
     }
 }

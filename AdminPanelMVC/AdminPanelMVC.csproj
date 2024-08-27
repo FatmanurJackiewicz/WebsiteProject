@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthAPI\AuthAPI.csproj" />
+    <ProjectReference Include="..\DataAPI\DataAPI.csproj" />
+    <ProjectReference Include="..\FileAPI\FileAPI.csproj" />
   </ItemGroup>
 
 </Project>

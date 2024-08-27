@@ -1,3 +1,9 @@
+using AdminPanelMVC.Controllers;
+using AdminPanelMVC.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 namespace AdminPanelMVC
 {
     public class Program
@@ -7,7 +13,10 @@ namespace AdminPanelMVC
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new UserIdentityFilter());
+            });
 
             builder.Services.AddHttpClient("ApiClient", client =>
             {
@@ -15,7 +24,55 @@ namespace AdminPanelMVC
 
             });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
-			var app = builder.Build();
+            builder.Services.AddHttpClient("ApiClientData", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7241/");
+
+            });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+
+			builder.Services.AddHttpClient("ApiClientFile", client =>
+			{
+				client.BaseAddress = new Uri("https://localhost:7069/");
+
+			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+
+		
+
+			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("auth-cookie"))
+                        {
+                            context.Token = context.Request.Cookies["auth-cookie"];
+                        }
+                        return Task.CompletedTask;
+                    },
+                    OnChallenge = context =>
+                    {
+                        // Token geçersizse veya yoksa yönlendirme iþlemi
+                        context.Response.Redirect("/login");
+                        context.HandleResponse();
+                        return Task.CompletedTask;
+                    }
+                };
+                options.MapInboundClaims = true;
+            });
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

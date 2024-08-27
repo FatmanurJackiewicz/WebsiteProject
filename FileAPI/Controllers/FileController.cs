@@ -9,10 +9,10 @@ namespace FileAPI.Controllers;
 public class FileController : ControllerBase
 {
 
-    [HttpPost("upload"), DisableRequestSizeLimit]
-    public async Task<IActionResult> UploadFile([FromForm] FileUploadModel model)
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadFile(IFormFile file)
     {
-        if (model.File == null && model.File.Length == 0)
+        if (file == null || file.Length == 0)
         {
             return BadRequest("Invalid File");
         }
@@ -23,8 +23,7 @@ public class FileController : ControllerBase
         {
             Directory.CreateDirectory(pathToSave);
         }
-        var fileName = model.File.FileName;
-        //c://resources/repos/allfiles/fileName.jpg
+        var fileName = file.FileName;
         var fullPath = Path.Combine(pathToSave, fileName);
         var dbPath = Path.Combine(folderName, fileName);
 
@@ -35,10 +34,13 @@ public class FileController : ControllerBase
 
         using (var stream = new FileStream(fullPath, FileMode.Create))
         {
-            model.File.CopyTo(stream);
+            file.CopyTo(stream);
         }
 
-        return Ok(new { dbPath });
+        // Dosya URL'ini oluştur
+        var urlToDownload = Url.Action("DownloadByName", "File", new { name = fileName }, Request.Scheme);
+
+        return Ok(new { Url = urlToDownload });
     }
 
 
@@ -103,5 +105,12 @@ public class FileController : ControllerBase
 
     }
 
+    [HttpGet("fileUrl/{fileName}")]
+    public IActionResult GetFileUrl(string fileName)
+    {
+        var folderName = "Resources/AllFiles";
+        var urlToDownload = Url.Action("DownloadByName", "File", new { name = fileName }, Request.Scheme);
+        return Ok(new { Url = urlToDownload });
+    }
 
 }

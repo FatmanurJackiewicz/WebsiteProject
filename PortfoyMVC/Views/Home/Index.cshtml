@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div id="successMessage" class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+<script>
+    // Belirli bir süre sonra mesajı gizlemek için setTimeout kullanıyoruz
+    setTimeout(function () {
+        var messageElement = document.getElementById("successMessage");
+        if (messageElement) {
+            messageElement.style.display = "none"; // Mesajı gizle
+        }
+    }, 5000); // 5000 milisaniye = 5 saniye
+</script>

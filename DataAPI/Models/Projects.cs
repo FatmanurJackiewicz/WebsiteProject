@@ -12,4 +12,4 @@ public class Projects
 
     public virtual User User { get; set; }
 }
-}
+

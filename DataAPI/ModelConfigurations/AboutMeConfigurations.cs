@@ -23,5 +23,6 @@ public class AboutMeConfigurations : IEntityTypeConfiguration<AboutMe>
         builder.Property(a => a.ImageUrl2)
                .HasMaxLength(255)
                .HasColumnType("varchar(255)");
+        
     }
 }

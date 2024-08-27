@@ -25,6 +25,6 @@ public class PersonalInfoConfigurations : IEntityTypeConfiguration<PersonalInfo>
         builder.Property(p => p.BirthDate)
             .HasColumnType("date")
             .IsRequired();
-
+       
     }
 }

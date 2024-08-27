@@ -15,6 +15,16 @@ namespace FileAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.AllowAnyMethod() // Tüm HTTP metodlar?na izin ver
+                               .AllowAnyHeader() // Tüm headerlara izin ver
+                               .AllowCredentials(); // Credential isteklerine izin ver
+                    });
+            });
 
             var app = builder.Build();
 
@@ -29,7 +39,7 @@ namespace FileAPI
 
             app.UseAuthorization();
 
-
+            app.UseCors();
             app.MapControllers();
 
             app.UseStaticFiles();

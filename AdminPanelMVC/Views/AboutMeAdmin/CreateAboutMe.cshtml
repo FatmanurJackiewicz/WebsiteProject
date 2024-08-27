@@ -1,0 +1,48 @@
+﻿@using AdminPanelMVC.Models.AboutMe;
+@model CreateAboutMeViewModel;
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+{
+	<div class="alert alert-danger" role="alert">
+		@ViewBag.ErrorMessage
+	</div>
+}
+
+@{
+    var imageUploadModel1 = new ImageUploadViewModel
+            {
+                Name = nameof(Model.Image1),
+                Label = "Product Images",
+                IsRequired = true,
+                IsMultipleFiles = true,
+                Accept = "image/png, image/jpeg"
+            };
+    var imageUploadModel2 = new ImageUploadViewModel
+            {
+                Name = nameof(Model.Image2),
+                Label = "Product Images",
+                IsRequired = true,
+                IsMultipleFiles = true,
+                Accept = "image/png, image/jpeg"
+            };
+}
+
+<form method="post" id="formAuthentication" class="mb-6" asp-controller="AboutMeAdmin" asp-action="CreateAboutMe" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div> <!-- Hata mesajlarını gösterir -->
+
+    <div class="mb-6">
+        <label asp-for="Introduction" class="form-label">Introduction</label>
+        <input type="text" asp-for="Introduction" class="form-control" placeholder="Enter Introduction" />
+        <span asp-validation-for="Introduction" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <partial name="Partials/Layout/ImageUpload" model="imageUploadModel1" />
+    </div>
+    <div class="form-group">
+        <partial name="Partials/Layout/ImageUpload" model="imageUploadModel2" />
+    </div>
+    
+    <div class="mt-6">
+        <button type="submit" class="btn btn-primary me-3">Save changes</button>
+    </div>
+</form>

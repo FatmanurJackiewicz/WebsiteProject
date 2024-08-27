@@ -81,7 +81,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
+                                                    <span class="fw-semibold d-block">@ViewBag.UserName</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" asp-controller="Profile" asp-action="Details">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
@@ -115,10 +115,10 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
+                                        <a class="dropdown-item" asp-controller="AuthAdmin" asp-action="Logout">
                                             <i class="bx bx-power-off me-2"></i>
                                             <span class="align-middle">Log Out</span>
-                                        </a>
+                                        </a>                                        
                                     </li>
                                 </ul>
                             </li>
@@ -201,5 +201,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

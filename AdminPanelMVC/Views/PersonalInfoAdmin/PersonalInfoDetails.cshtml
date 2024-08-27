@@ -1,0 +1,33 @@
+﻿@using AdminPanelMVC.Models.PersonalInfo;
+@model PersonalInfoDetailsViewModel;
+
+<form method="get" id="formAuthentication" class="mb-6" asp-controller="PersonalInfoAdmin" asp-action="UpdatePersonalInfo">
+
+    <div class="mb-6">
+        <label asp-for="About" class="form-label">About</label>
+        <textarea asp-for="About" class="form-control" placeholder="Enter details about yourself" disabled></textarea>
+        <span asp-validation-for="About" class="text-danger"></span>
+    </div>
+
+    <div class="mb-6">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Enter your name" disabled/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-6">
+        <label asp-for="Surname" class="form-label">Surname</label>
+        <input type="text" asp-for="Surname" class="form-control" placeholder="Enter your surname" disabled />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="mb-6">
+        <label asp-for="BirthDate" class="form-label">Birth Date</label>
+        <input type="date" asp-for="BirthDate" class="form-control" disabled />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-6">
+        <button type="submit" class="btn btn-warning me-3 mt-2">Click for Edit</button>
+    </div>
+</form>

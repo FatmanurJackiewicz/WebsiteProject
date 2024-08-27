@@ -1,0 +1,37 @@
+﻿@using PortfoyMVC.Models;
+@model ContactFormViewModel;
+
+<form method="post" asp-controller="Contact" asp-action="SubmitContactForm" class="col-md-12" >
+    <div class="form-group col-md-12">
+        <label asp-for="Name">Name</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter your name" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group  col-md-12">
+        <label asp-for="Email">Email</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="Enter your email" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-12">
+        <label asp-for="Subject">Subject</label>
+        <select class="form-control" asp-for="Subject" required>
+            <option value="">Please select a subject</option>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Support">Support</option>
+            <option value="Feedback">Feedback</option>
+        </select>
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+
+    <div class="form-group col-md-12">
+        <label asp-for="Message">Message</label>
+        <textarea class="form-control" asp-for="Message" rows="4" placeholder="Enter your message" required></textarea>
+        <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+<partial name="_ValidationScriptsPartial" />

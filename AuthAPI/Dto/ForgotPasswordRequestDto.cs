@@ -4,6 +4,6 @@ namespace AuthAPI.Dto;
 
 public class ForgotPasswordRequestDto
 {
-    [Required]
+    [Required, MaxLength(50), EmailAddress]
     public string Email { get; set; } = null!;
 }

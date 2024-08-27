@@ -8,9 +8,7 @@ public class RegisterDtoValidator : AbstractValidator<RegisterDto>
     {
         RuleFor(x => x.Username).NotEmpty().WithMessage("Username can not be empty!");
         RuleFor(x => x.Password).NotEmpty().WithMessage("Password can not be empty!")
-            .MinimumLength(8).WithMessage("Password should be minimum 8 character!");
-        RuleFor(x => x.ConfirmPassword).Must((model, field) => model.Password == field)
-            .WithMessage("Password and ConfirmPassword fields must match");
+            .MinimumLength(8).WithMessage("Password should be minimum 8 character!");       
     }
 
 }

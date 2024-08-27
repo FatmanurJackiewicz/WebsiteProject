@@ -10,4 +10,6 @@ public class LoginDto
     [Required, MaxLength(50), DataType(DataType.Password)]
     public string Password { get; set; }
 
+    public string Project { get; set; }
+
 }

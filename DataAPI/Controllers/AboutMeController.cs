@@ -1,6 +1,7 @@
 ﻿using DataAPI.Data;
 using DataAPI.DTOs.AboutMe;
 using DataAPI.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +16,27 @@ public class AboutMeController : ControllerBase
     public AboutMeController(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
-    }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAboutMe([FromRoute] int id)
+	}
+
+    [HttpGet()]
+    public async Task<IActionResult> GetAboutMe()
     {
-        var user = _appDbContext.AboutMe.SingleOrDefault(u => u.Id == id);
+        var aboutMeCount = _appDbContext.AboutMe.ToList().Count();
 
-        if (user is null)
+        if (aboutMeCount == 0)
             return NotFound("User not found");
 
-        return Ok(user);
+        var aboutMe = _appDbContext.AboutMe.FirstOrDefault();
+
+        var aboutMeDto = new DetailsAboutMeDto
+        {
+            Introduction = aboutMe.Introduction,
+            ImageUrl1 = aboutMe.ImageUrl1,
+            ImageUrl2 = aboutMe.ImageUrl2
+        };
+
+        return Ok(aboutMeDto);
     }
 
     [HttpPost("createAboutMe")]
@@ -40,20 +51,19 @@ public class AboutMeController : ControllerBase
             ImageUrl1 = createDto.ImageUrl1,
             ImageUrl2 = createDto.ImageUrl2
         };
-
         _appDbContext.AboutMe.Add(newAboutMe);
         await _appDbContext.SaveChangesAsync();
 
-        return Ok(newAboutMe);
+        return Ok();
     }
 
-    [HttpPut("updateAboutMe")]
+    [HttpPost("updateAboutMe")]
     public async Task<IActionResult> UpdateAboutMe([FromBody] UpdateAboutMeDto createDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var existAboutMe = await _appDbContext.AboutMe.FindAsync(createDto.Id);
+        var existAboutMe = _appDbContext.AboutMe.FirstOrDefault();
 
         if (existAboutMe is null)
             return NotFound("AboutMe is not found");
@@ -67,20 +77,5 @@ public class AboutMeController : ControllerBase
 
         return Ok(existAboutMe);
     }
-
-    [HttpDelete("deleteAboutMe/{id}")]
-    public async Task<IActionResult> DeleteAboutMe([FromRoute] int id)
-    {
-        var existAboutMe = await _appDbContext.AboutMe.FindAsync(id);
-
-        if (existAboutMe == null)
-        {
-            return NoContent();
-        }
-
-        _appDbContext.AboutMe.Remove(existAboutMe);
-        await _appDbContext.SaveChangesAsync();
-
-        return Ok("Deleted successfully.");
-    }
+    
 }

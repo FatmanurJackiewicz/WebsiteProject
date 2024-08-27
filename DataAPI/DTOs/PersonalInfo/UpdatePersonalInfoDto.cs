@@ -4,9 +4,7 @@ namespace DataAPI.DTOs.PersonalInfo;
 
 public class UpdatePersonalInfoDto
 {
-    [Required]
-    public int Id { get; set; }
-
+ 
     [Required]
     public string About { get; set; } = string.Empty;
 

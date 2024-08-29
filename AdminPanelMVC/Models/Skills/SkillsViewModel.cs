@@ -6,5 +6,6 @@ namespace AdminPanelMVC.Models.Skills
     {
         [Required]
         public string Description { get; set; }
+        public List<string> SkillsList { get; set; }
     }
 }

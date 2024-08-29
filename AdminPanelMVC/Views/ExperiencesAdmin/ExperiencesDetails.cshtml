@@ -1,0 +1,44 @@
+﻿@using AdminPanelMVC.Models.Experiences;
+@model ExperiencesViewModel;
+
+<form asp-action="UpdateExperiences" asp-controller="ExperiencesAdmin" method="get" id="formAuthentication-experiences">
+    <div class="form-group">
+        <label asp-for="Id" class="control-label"></label>
+        <input asp-for="Id" class="form-control" readonly disabled />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" disabled />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Company" class="control-label"></label>
+        <input asp-for="Company" class="form-control" disabled />
+        <span asp-validation-for="Company" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" class="form-control" type="date" disabled />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" class="form-control" type="date" disabled />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" disabled></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>

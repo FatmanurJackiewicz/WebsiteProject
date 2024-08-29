@@ -14,6 +14,7 @@ namespace DataAPI.Data
         public DbSet<Experiences> Experiences { get; set; }
         public DbSet<PersonalInfo> PersonalInfo { get; set; }
         public DbSet<Projects> Projects { get; set; }
+        public DbSet<Skills> Skills { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
@@ -28,6 +29,7 @@ namespace DataAPI.Data
             modelBuilder.ApplyConfiguration(new ExperiencesConfigurations());
             modelBuilder.ApplyConfiguration(new PersonalInfoConfigurations());
             modelBuilder.ApplyConfiguration(new ProjectsConfigurations());
+            modelBuilder.ApplyConfiguration(new SkillsConfigurations());
 
             base.OnModelCreating(modelBuilder);
 

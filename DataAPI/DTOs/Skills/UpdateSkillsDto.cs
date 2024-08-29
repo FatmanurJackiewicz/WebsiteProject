@@ -6,5 +6,6 @@ namespace DataAPI.DTOs.Skills
 	{
 		[Required]
 		public string Description { get; set; }
-	}
+        public List<string> SkillsList { get; set; }
+    }
 }

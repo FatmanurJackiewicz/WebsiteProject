@@ -1,0 +1,81 @@
+﻿@using AdminPanelMVC.Models.Skills;
+@model UpdateSkillsViewModel;
+
+<form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="UpdateSkills">
+
+    <div class="mb-6">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Dinamik olarak input alanlarının ekleneceği alan -->
+    <div id="input-container" class="mb-3">
+        @if (Model.Skills!= null)
+        {
+            // Eğer modelde mevcut yetenekler varsa, bunları input alanları olarak göster
+            foreach (var skill in Model.Skills)
+            {
+                <div class="input-group mt-2">
+                    <input type="text" name="Skills[]" class="form-control" value="@skill" placeholder="Enter a skill" />
+                    <button type="button" class="btn btn-danger remove-input-btn">X</button>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Add Skills Butonu -->
+    <div>
+        <button id="add-input-btn" type="button" class="btn btn-primary mt-3">
+            + Add Skills
+        </button>
+    </div>
+
+    <!-- Submit Butonu -->
+    <div class="mb-6">
+        <button type="submit" class="btn btn-warning me-3 mt-2">Update</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        // Buton ve input container'ını seç
+        var addButton = document.getElementById("add-input-btn");
+        var inputContainer = document.getElementById("input-container");
+
+        // Butona tıklanınca yeni bir input ekle
+        addButton.addEventListener("click", function () {
+            // Yeni bir input alanı ve silme butonu içeren bir div oluştur
+            var inputGroup = document.createElement("div");
+            inputGroup.className = "input-group mt-2";
+
+            var newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = "Skills[]"; // Aynı isimle birden fazla input gönderme
+            newInput.className = "form-control"; // Bootstrap class for styling
+            newInput.placeholder = "Enter a skill"; // Placeholder ekleme
+
+            var removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.className = "btn btn-danger remove-input-btn";
+            removeButton.innerText = "X";
+
+            // Silme butonuna tıklanıldığında input alanını kaldır
+            removeButton.addEventListener("click", function () {
+                inputContainer.removeChild(inputGroup);
+            });
+
+            // Input alanını ve butonu group container'a ekle
+            inputGroup.appendChild(newInput);
+            inputGroup.appendChild(removeButton);
+            inputContainer.appendChild(inputGroup);
+        });
+
+        // Sayfa yüklendiğinde mevcut silme butonlarına event ekle
+        document.querySelectorAll(".remove-input-btn").forEach(function (button) {
+            button.addEventListener("click", function () {
+                inputContainer.removeChild(button.parentElement);
+            });
+        });
+    </script>
+}

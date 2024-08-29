@@ -8,12 +8,19 @@
         <textarea asp-for="Description" class="form-control" placeholder="Enter your skills"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
+
+    <!-- Dinamik olarak input alanlarının ekleneceği alan -->
+    <div id="input-container" class="mb-3">
+    </div>
+
+    <!-- Add Skills Butonu -->
     <div>
         <button id="add-input-btn" type="button" class="btn btn-primary mt-3">
             + Add Skills
         </button>
     </div>
 
+    <!-- Submit Butonu -->
     <div class="mb-6">
         <button type="submit" class="btn btn-warning me-3 mt-2">Create</button>
     </div>
@@ -30,8 +37,9 @@
             // Yeni bir input alanı oluştur
             var newInput = document.createElement("input");
             newInput.type = "text";
-            newInput.name = "dynamicInputs[]"; // Aynı isimle birden fazla input gönderme
+            newInput.name = "Skills[]"; // Aynı isimle birden fazla input gönderme
             newInput.className = "form-control mt-2"; // Bootstrap class for styling
+            newInput.placeholder = "Enter a skill"; // Placeholder ekleme
 
             // Input alanını container'a ekle
             inputContainer.appendChild(newInput);

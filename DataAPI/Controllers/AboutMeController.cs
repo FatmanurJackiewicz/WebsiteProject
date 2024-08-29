@@ -11,71 +11,71 @@ namespace DataAPI.Controllers;
 [ApiController]
 public class AboutMeController : ControllerBase
 {
-    private static AppDbContext _appDbContext;
+	private static AppDbContext _appDbContext;
 
-    public AboutMeController(AppDbContext appDbContext)
-    {
-        _appDbContext = appDbContext;
+	public AboutMeController(AppDbContext appDbContext)
+	{
+		_appDbContext = appDbContext;
 
 	}
 
-    [HttpGet()]
-    public async Task<IActionResult> GetAboutMe()
-    {
-        var aboutMeCount = _appDbContext.AboutMe.ToList().Count();
+	[HttpGet()]
+	public async Task<IActionResult> GetAboutMe()
+	{
+		var aboutMeCount = _appDbContext.AboutMe.ToList().Count();
 
-        if (aboutMeCount == 0)
-            return NotFound("User not found");
+		if (aboutMeCount == 0)
+			return NotFound("User not found");
 
-        var aboutMe = _appDbContext.AboutMe.FirstOrDefault();
+		var aboutMe = _appDbContext.AboutMe.FirstOrDefault();
 
-        var aboutMeDto = new DetailsAboutMeDto
-        {
-            Introduction = aboutMe.Introduction,
-            ImageUrl1 = aboutMe.ImageUrl1,
-            ImageUrl2 = aboutMe.ImageUrl2
-        };
+		var aboutMeDto = new DetailsAboutMeDto
+		{
+			Introduction = aboutMe.Introduction,
+			ImageUrl1 = aboutMe.ImageUrl1,
+			ImageUrl2 = aboutMe.ImageUrl2
+		};
 
-        return Ok(aboutMeDto);
-    }
+		return Ok(aboutMeDto);
+	}
 
-    [HttpPost("createAboutMe")]
-    public async Task<IActionResult> PostAboutMe([FromBody] CreateAboutMeDto createDto)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+	[HttpPost("createAboutMe")]
+	public async Task<IActionResult> PostAboutMe([FromBody] CreateAboutMeDto createDto)
+	{
+		if (!ModelState.IsValid)
+			return BadRequest(ModelState);
 
-        var newAboutMe = new AboutMe
-        {
-            Introduction = createDto.Introduction,
-            ImageUrl1 = createDto.ImageUrl1,
-            ImageUrl2 = createDto.ImageUrl2
-        };
-        _appDbContext.AboutMe.Add(newAboutMe);
-        await _appDbContext.SaveChangesAsync();
+		var newAboutMe = new AboutMe
+		{
+			Introduction = createDto.Introduction,
+			ImageUrl1 = createDto.ImageUrl1,
+			ImageUrl2 = createDto.ImageUrl2
+		};
+		_appDbContext.AboutMe.Add(newAboutMe);
+		await _appDbContext.SaveChangesAsync();
 
-        return Ok();
-    }
+		return Ok();
+	}
 
-    [HttpPost("updateAboutMe")]
-    public async Task<IActionResult> UpdateAboutMe([FromBody] UpdateAboutMeDto createDto)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+	[HttpPost("updateAboutMe")]
+	public async Task<IActionResult> UpdateAboutMe([FromBody] UpdateAboutMeDto updateDto)
+	{
+		if (!ModelState.IsValid)
+			return BadRequest(ModelState);
 
-        var existAboutMe = _appDbContext.AboutMe.FirstOrDefault();
+		var existAboutMe = _appDbContext.AboutMe.FirstOrDefault();
 
-        if (existAboutMe is null)
-            return NotFound("AboutMe is not found");
+		if (existAboutMe is null)
+			return NotFound("AboutMe is not found");
 
-        existAboutMe.Introduction = createDto.Introduction;
-        existAboutMe.ImageUrl1 = createDto.ImageUrl1;
-        existAboutMe.ImageUrl2 = createDto.ImageUrl2;
+		existAboutMe.Introduction = updateDto.Introduction;
+		existAboutMe.ImageUrl1 = updateDto.ImageUrl1;
+		existAboutMe.ImageUrl2 = updateDto.ImageUrl2;
 
-        _appDbContext.AboutMe.Update(existAboutMe);
-        await _appDbContext.SaveChangesAsync();
+		_appDbContext.AboutMe.Update(existAboutMe);
+		await _appDbContext.SaveChangesAsync();
 
-        return Ok(existAboutMe);
-    }
-    
+		return Ok(existAboutMe);
+	}
+	
 }

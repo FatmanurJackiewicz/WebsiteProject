@@ -1,6 +1,19 @@
-﻿<div class="input-group input-group-sm mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-sm">Small</span>
+﻿@using AdminPanelMVC.Models.Skills;
+@model CreateSkillsViewModel;
+
+<form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="CreateSkills">
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills" disabled></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
-    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-</div>
+
+    <!-- Dinamik olarak input alanlarının ekleneceği alan -->
+    <!-- Add Skills Butonu -->
+
+    <!-- Submit Butonu -->
+    <div class="mb-6">
+        <button type="submit" class="btn btn-warning me-3 mt-2">Click for Edit</button>
+    </div>
+</form>

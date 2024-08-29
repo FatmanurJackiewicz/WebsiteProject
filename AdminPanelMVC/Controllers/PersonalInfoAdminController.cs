@@ -19,9 +19,9 @@ public class PersonalInfoAdminController : Controller
 	}
 
 	[Route("personal-details")]
-    [HttpGet]
-    public async Task<IActionResult> PersonalInfoDetails()
-    {
+	[HttpGet]
+	public async Task<IActionResult> PersonalInfoDetails()
+	{
 		var dataClient = _httpClientFactory.CreateClient("ApiClientData");
 		var response = await dataClient.GetAsync($"api/personalinfo/personal-info");
 
@@ -41,7 +41,7 @@ public class PersonalInfoAdminController : Controller
 		};
 
 		return View(personalInfoViewModel);
-    }
+	}
 
 	[Route("/personalInfo-nopage")]
 	[HttpGet]

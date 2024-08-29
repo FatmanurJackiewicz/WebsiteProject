@@ -4,9 +4,9 @@ namespace AdminPanelMVC.Models.AboutMe;
 
 public class AboutMeViewModel
 {
-    public int Id { get; set; }
-    [Required]
-    public string Introduction { get; set; } = string.Empty;
+	public int Id { get; set; }
+	[Required]
+	public string Introduction { get; set; } = string.Empty;
 
 	[Required]
 	public string Image1Url { get; set; }

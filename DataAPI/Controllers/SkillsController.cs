@@ -37,7 +37,7 @@ public class SkillsController : ControllerBase
 	}
 
 	[HttpPost("createSkills")]
-	public async Task<IActionResult> PostSkills([FromBody] CreateSkillsDto createDto)
+	public async Task<IActionResult> CreateSkills([FromBody] CreateSkillsDto createDto)
 	{
 		if (!ModelState.IsValid)
 			return BadRequest(ModelState);

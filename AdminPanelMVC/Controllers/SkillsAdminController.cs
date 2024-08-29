@@ -51,16 +51,18 @@ public class SkillsAdminController : Controller
 		return View();
 	}
 
-	[Route("/create-aboutMe")]
+	[Route("/create-skills")]
 	[HttpPost]
 	public async Task<IActionResult> CreateSkills([FromForm] CreateSkillsViewModel createSkillsViewModel)
 	{
 		if (!ModelState.IsValid)
 			return View(createSkillsViewModel);
 
+		// ViewModel'den DTO'ya dönüştürme işlemi yapılırken Skills listesini de ekliyoruz
 		var createSkillsDto = new CreateSkillsDto
 		{
-			Description = createSkillsViewModel.Description
+			Description = createSkillsViewModel.Description,
+			SkillsList = createSkillsViewModel.SkillsList // Skills listesini ekliyoruz
 		};
 
 		var client = _httpClientFactory.CreateClient("ApiClientData");
@@ -75,6 +77,7 @@ public class SkillsAdminController : Controller
 
 		return RedirectToAction(nameof(SkillsDetails));
 	}
+
 
 
 	[Route("/update-skills")]
@@ -92,14 +95,15 @@ public class SkillsAdminController : Controller
 		if (!ModelState.IsValid)
 			return View(updateSkillsViewModel);
 
+		// ViewModel'den DTO'ya dönüştürme işlemi yapılırken Skills listesini de ekliyoruz
 		var updateSkillsDto = new UpdateSkillsDto
-		{
+		{ // Güncellemek istediğiniz kaydın Id'si
 			Description = updateSkillsViewModel.Description,
-			
+			SkillsList = updateSkillsViewModel.SkillsList // Skills listesini ekliyoruz
 		};
 
 		var client = _httpClientFactory.CreateClient("ApiClientData");
-		var response = await client.PostAsJsonAsync("api/skills/updateSkills", updateSkillsDto);
+		var response = await client.PutAsJsonAsync($"api/skills/updateSkills", updateSkillsDto);
 
 		if (!response.IsSuccessStatusCode)
 		{
@@ -110,5 +114,6 @@ public class SkillsAdminController : Controller
 
 		return RedirectToAction(nameof(SkillsDetails));
 	}
+
 
 }

@@ -1,0 +1,11 @@
+﻿@using PortfoyMVC.Models;
+@model SkillsPortfoyViewModel;
+
+
+
+@foreach (var skill in Model.SkillsList)
+{
+    if (skill == string.Empty)
+        continue;
+    <li class="pl-4">@skill</li>
+}

@@ -30,13 +30,7 @@ namespace DataAPI.ModelConfigurations
 
             builder.Property(e => e.Description)
                 .HasColumnType("text")
-                .IsRequired(false);
-
-            builder.HasOne(e => e.User)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey(e => e.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .IsRequired(false);       
         }
     }
 

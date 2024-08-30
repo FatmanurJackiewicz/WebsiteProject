@@ -2,9 +2,9 @@
 
 namespace DataAPI.DTOs.Skills
 {
-	public class CreateSkillsDto
-	{
+    public class DeleteSkillDto
+    {
         [Required]
-        public List<string> SkillsList { get; set; }
+        public string SkillName { get; set; }
     }
 }

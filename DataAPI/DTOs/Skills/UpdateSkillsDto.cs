@@ -2,10 +2,9 @@
 
 namespace DataAPI.DTOs.Skills
 {
-	public class UpdateSkillsDto
+    public class UpdateSkillsDto
 	{
-		[Required]
-		public string Description { get; set; }
+        [Required]
         public List<string> SkillsList { get; set; }
     }
 }

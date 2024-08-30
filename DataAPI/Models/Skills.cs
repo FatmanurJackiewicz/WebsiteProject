@@ -4,8 +4,10 @@ namespace DataAPI.Models
 {
 	public class Skills
 	{
-		[Required]
-		public string Description { get; set; }
-        public List<string> SkillsList { get; set; }
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }

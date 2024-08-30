@@ -8,10 +8,12 @@ namespace DataAPI.ModelConfigurations
 	{
 		public void Configure(EntityTypeBuilder<Skills> builder)
 		{
-			builder.HasKey(e => e.Description);
-			builder.Property(e => e.Description)
-			.HasColumnType("text")
-			.IsRequired(true);
+			builder.HasKey(s => s.Id);
+			builder.Property(s => s.Id).ValueGeneratedOnAdd();
+
+			builder.Property(s => s.Name)
+				.IsRequired();
+
 		}
 	}
 }

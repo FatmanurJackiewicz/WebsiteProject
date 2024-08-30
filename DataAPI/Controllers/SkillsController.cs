@@ -9,7 +9,7 @@ namespace DataAPI.Controllers;
 [ApiController]
 public class SkillsController : ControllerBase
 {
-	private static AppDbContext _appDbContext;
+	private readonly AppDbContext _appDbContext;
 
 	public SkillsController(AppDbContext appDbContext)
 	{
@@ -17,20 +17,17 @@ public class SkillsController : ControllerBase
 
 	}
 
-
 	[HttpGet()]
 	public async Task<IActionResult> GetSkills()
 	{
-		var SkillsCount = _appDbContext.Skills.ToList().Count();
+		var skillsList = _appDbContext.Skills.ToList();
 
-		if (SkillsCount == 0)
+		if (skillsList is null)
 			return NotFound("Skills not found");
-
-		var skills = _appDbContext.Skills.FirstOrDefault();
 
 		var skillsDto = new SkillsDetailsDto
 		{
-			Description = skills.Description
+			SkillsList = skillsList.Select(s => s.Name).ToList()
 		};
 
 		return Ok(skillsDto);
@@ -42,11 +39,15 @@ public class SkillsController : ControllerBase
 		if (!ModelState.IsValid)
 			return BadRequest(ModelState);
 
-		var newSkills = new Skills
+		foreach (var skillName in createDto.SkillsList)
 		{
-			Description = createDto.Description
-		};
-		_appDbContext.Skills.Add(newSkills);
+			var newSkill = new Skills
+			{
+				Name = skillName
+			};
+			_appDbContext.Skills.Add(newSkill);
+		}
+		
 		await _appDbContext.SaveChangesAsync();
 
 		return Ok();
@@ -58,18 +59,42 @@ public class SkillsController : ControllerBase
 		if (!ModelState.IsValid)
 			return BadRequest(ModelState);
 
-		var existSkills = _appDbContext.Skills.FirstOrDefault();
+		var existSkills = _appDbContext.Skills.ToList();
 
 		if (existSkills is null)
 			return NotFound("Skill is not found");
 
-		existSkills.Description = updateDto.Description;
+		var index = 0;
+		foreach (var skillName in updateDto.SkillsList)
+		{			
+			if (index == existSkills.Count)
+				break;
+			existSkills[index].Name = skillName;
+			index++;			
+		}
 
-		_appDbContext.Skills.Update(existSkills);
 		await _appDbContext.SaveChangesAsync();
 
 		return Ok(existSkills);
 	}
+
+    [HttpPost("deleteSkill")]
+    public async Task<IActionResult> DeleteSkill([FromBody] DeleteSkillDto deleteSkillDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+		var existSkill = _appDbContext.Skills.Where(s => s.Name == deleteSkillDto.SkillName).FirstOrDefault();
+
+        if (existSkill is null)
+            return NoContent();
+
+		_appDbContext.Remove(existSkill);
+
+        await _appDbContext.SaveChangesAsync();
+
+        return Ok();
+    }
 
 
 

@@ -26,8 +26,10 @@ public class AboutMeAdminController : Controller
 
 		if (!response.IsSuccessStatusCode)
 		{
-			return RedirectToAction(nameof(AboutMeNoPage));
-		}
+            var errorResponse = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"Bir hata oluştu: {errorResponse}");
+            return View();
+        }
 
 		var aboutMeDto = await response.Content.ReadFromJsonAsync<DetailsAboutMeDto>();
 
@@ -39,13 +41,6 @@ public class AboutMeAdminController : Controller
 		};
 
 		return View(aboutMeViewModel);
-	}
-
-	[Route("/aboutMe-nopage")]
-	[HttpGet]
-	public async Task<IActionResult> AboutMeNoPage()
-	{
-		return View();       
 	}
 
 	

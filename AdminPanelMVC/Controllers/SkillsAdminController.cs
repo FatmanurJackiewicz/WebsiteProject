@@ -1,5 +1,6 @@
 ﻿using AdminPanelMVC.Models.Skills;
 using DataAPI.DTOs.Skills;
+using DataAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -31,12 +32,16 @@ namespace AdminPanelMVC.Controllers
 
             var skillsDto = await response.Content.ReadFromJsonAsync<SkillsDetailsDto>();
 
+            if (skillsDto.SkillsList.Count == 0)
+            {
+                return RedirectToAction(nameof(SkillsNoPage));
+            }
+
             var skillsViewModel = new SkillsViewModel
             {
-                Description = skillsDto.Description,
                 SkillsList = skillsDto.SkillsList // Eklenmesi gereken alan
             };
-
+            
             return View(skillsViewModel);
         }
 
@@ -61,7 +66,6 @@ namespace AdminPanelMVC.Controllers
 
             var createSkillsDto = new CreateSkillsDto
             {
-                Description = createSkillsViewModel.Description,
                 SkillsList = createSkillsViewModel.SkillsList
             };
 
@@ -93,7 +97,6 @@ namespace AdminPanelMVC.Controllers
 
             var updateSkillsViewModel = new UpdateSkillsViewModel
             {
-                Description = skillsDto.Description,
                 SkillsList = skillsDto.SkillsList
             };
 
@@ -109,18 +112,42 @@ namespace AdminPanelMVC.Controllers
 
             var updateSkillsDto = new UpdateSkillsDto
             {
-                Description = updateSkillsViewModel.Description,
                 SkillsList = updateSkillsViewModel.SkillsList
             };
 
             var client = _httpClientFactory.CreateClient("ApiClientData");
-            var response = await client.PutAsJsonAsync("api/skills/updateSkills", updateSkillsDto);
+            var response = await client.PostAsJsonAsync("api/skills/updateSkills", updateSkillsDto);
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 ViewBag.ErrorMessage = errorMessage;
-                return View(updateSkillsViewModel);
+                return RedirectToAction(nameof(SkillsDetails));
+            }
+
+            return RedirectToAction(nameof(SkillsDetails));
+        }
+
+        [Route("/delete-skill")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteSkill(string skillName)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(SkillsDetails));
+
+            var deleteSkillDto = new DeleteSkillDto
+            {
+                SkillName = skillName
+            };
+
+            var client = _httpClientFactory.CreateClient("ApiClientData");
+            var response = await client.PostAsJsonAsync("api/skills/deleteSkill", deleteSkillDto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                ViewBag.ErrorMessage = errorMessage;
+                return RedirectToAction(nameof(SkillsDetails));
             }
 
             return RedirectToAction(nameof(SkillsDetails));

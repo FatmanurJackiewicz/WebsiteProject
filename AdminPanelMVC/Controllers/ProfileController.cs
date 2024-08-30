@@ -28,7 +28,7 @@ namespace AdminPanelMVC.Controllers
             if (userId == null)
                 return RedirectToAction("Login", "AuthAdmin");
 
-            var client = _httpClientFactory.CreateClient("ApiClientData");
+            var client = _httpClientFactory.CreateClient("ApiClient");
             var response = await client.GetAsync($"api/auth/user/{userId}");
 
             if (!response.IsSuccessStatusCode)

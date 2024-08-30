@@ -32,7 +32,6 @@ public class ExperiencesAdminController : Controller
 
         var experiencesViewModel = new ExperiencesViewModel
         {
-            Id = experiencesDto.Id,
             Title = experiencesDto.Title,
             Company = experiencesDto.Company,
             StartDate = experiencesDto.StartDate,
@@ -81,19 +80,19 @@ public class ExperiencesAdminController : Controller
         {
             var errorMessage = await response.Content.ReadAsStringAsync();
             ViewBag.ErrorMessage = errorMessage;
-            return View(createExperiencesDto);
+            return View(createExperiencesViewModel);
         }
 
         return RedirectToAction(nameof(ExperiencesDetails));
     }
 
 
-    [Route("/update-experiences/{id}")]
+    [Route("/update-experiences/")]
     [HttpGet]
-    public async Task<IActionResult> UpdateExperiences(int id)
+    public async Task<IActionResult> UpdateExperiences()
     {
         var dataClient = _httpClientFactory.CreateClient("ApiClientData");
-        var response = await dataClient.GetAsync($"api/experiences/{id}");
+        var response = await dataClient.GetAsync("api/experiences/");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -104,7 +103,6 @@ public class ExperiencesAdminController : Controller
 
         var updateExperiencesViewModel = new UpdateExperiencesViewModel
         {
-            Id = experienceDto.Id,
             Title = experienceDto.Title,
             Company = experienceDto.Company,
             StartDate = experienceDto.StartDate,
@@ -126,7 +124,6 @@ public class ExperiencesAdminController : Controller
 
         var updateExperienceDto = new UpdateExperienceDto
         {
-            Id = updateExperiencesViewModel.Id,
             Title = updateExperiencesViewModel.Title,
             Company = updateExperiencesViewModel.Company,
             StartDate = updateExperiencesViewModel.StartDate,
@@ -135,7 +132,7 @@ public class ExperiencesAdminController : Controller
         };
 
         var client = _httpClientFactory.CreateClient("ApiClientData");
-        var response = await client.PutAsJsonAsync($"api/experiences/{updateExperiencesViewModel.Id}", updateExperienceDto);
+        var response = await client.PostAsJsonAsync($"api/experiences/updateExperiences", updateExperienceDto);
 
         if (!response.IsSuccessStatusCode)
         {

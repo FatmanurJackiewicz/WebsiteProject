@@ -7,7 +7,6 @@ namespace DataAPI.Data
     public class AppDbContext :DbContext
     {
         public DbSet<AboutMe> AboutMe { get; set; }
-        public DbSet<BlogPosts> BlogPosts { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<ContactMessages> ContactMessages { get; set; }
         public DbSet<Educations> Educations { get; set; }
@@ -22,7 +21,6 @@ namespace DataAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AboutMeConfigurations());
-            modelBuilder.ApplyConfiguration(new BlogPostsConfigurations());
             modelBuilder.ApplyConfiguration(new CommentsConfigurations());
             modelBuilder.ApplyConfiguration(new ContactMessagesConfigurations());
             modelBuilder.ApplyConfiguration(new EducationsConfigurations());

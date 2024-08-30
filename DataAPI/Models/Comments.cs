@@ -10,8 +10,6 @@ namespace DataAPI.Models
         public DateTime CreatedDate { get; set; }
         public bool IsApproved { get; set; }
         public int BlogPostId { get; set; }
-
-        public BlogPosts BlogPost { get; set; }
         public virtual User User { get; set; }
     }
 }

@@ -31,12 +31,6 @@ namespace DataAPI.ModelConfigurations
                    .IsRequired()
                    .HasColumnType("int");
 
-            // Foreign key relationships
-            builder.HasOne(c => c.BlogPost)
-                   .WithMany(c => c.Comments)  // Assuming BlogPosts can have multiple Comments
-                   .HasForeignKey(c => c.BlogPostId)
-                   .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasOne(e => e.User)
                 .WithMany()
                 .IsRequired()

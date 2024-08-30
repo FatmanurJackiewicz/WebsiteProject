@@ -1,50 +1,7 @@
 ﻿@using AdminPanelMVC.Models.Skills;
-@model CreateSkillsViewModel;
-@* 
-<form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="UpdateSkills">
-
-    <div class="mb-6">
-        <label asp-for="Description" class="form-label">Description</label>
-        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <!-- Dinamik olarak input alanlarının ekleneceği alan -->
-    <div id="input-container" class="mb-3">
-        @if (Model.Skills != null)
-        {
-            // Eğer modelde mevcut yetenekler varsa, bunları input alanları olarak göster
-            foreach (var skill in Model.Skills)
-            {
-                <div class="input-group mt-2">
-                    <input type="text" name="Skills[]" class="form-control" value="@skill" placeholder="Enter a skill" />
-                    <button type="button" class="btn btn-danger remove-input-btn">X</button>
-                </div>
-            }
-        }
-    </div>
-
-    <!-- Add Skills Butonu -->
-    <div>
-        <button id="add-input-btn" type="button" class="btn btn-primary mt-3">
-            + Add Skills
-        </button>
-    </div>
-
-    <!-- Submit Butonu -->
-    <div class="mb-6">
-        <button type="submit" class="btn btn-warning me-3 mt-2">Update</button>
-    </div>
-</form>
- *@
+@model UpdateSkillsViewModel;
 
 <form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="UpdateSkills">
-
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">Description</label>
-        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
 
     <div class="mb-3">
         <button type="submit" class="btn btn-warning me-3 mt-2">Update</button>
@@ -57,7 +14,7 @@
             foreach (var skill in Model.SkillsList)
             {
                 <div class="input-group mt-2">
-                    <input type="text" name="Skills[]" class="form-control" value="@skill" placeholder="Enter a skill" />
+                    <input type="text" name="Skills[]" class="form-control" value="@skill" />
                     <button type="button" class="btn btn-danger remove-input-btn">X</button>
                 </div>
             }

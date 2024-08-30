@@ -17,19 +17,28 @@ public class ExperiencesController : ControllerBase
         _appDbContext = appDbContext;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetExperiences([FromRoute] int id)
+    [HttpGet()]
+    public async Task<IActionResult> GetExperiences()
     {
-        var experience = await _appDbContext.Experiences.FindAsync(id);
+        var experience = _appDbContext.Experiences.FirstOrDefault();
 
-        if (experience == null)
+        if (experience is null)
             return NotFound("Experience not found");
 
-        return Ok(experience);
+        var detailsExperienceDto = new DetailsExperienceDto
+        {
+            Title = experience.Title,
+            Company = experience.Company,
+            StartDate = experience.StartDate,
+            EndDate = experience.EndDate,
+            Description = experience.Description
+        };
+
+        return Ok(detailsExperienceDto);
     }
 
     
-    [HttpPost("createExperinces")]
+    [HttpPost("createExperiences")]
     public async Task<IActionResult> CreateExperiences([FromBody] CreateExperienceDto createDto)
     {
         if (!ModelState.IsValid)
@@ -53,13 +62,13 @@ public class ExperiencesController : ControllerBase
     }
 
     
-    [HttpPut("updateExperince")]
+    [HttpPost("updateExperiences")]
     public async Task<IActionResult> UpdateExperiences([FromBody] UpdateExperienceDto updateDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var existExperiences = await _appDbContext.Experiences.FindAsync(updateDto.Id);
+        var existExperiences = _appDbContext.Experiences.FirstOrDefault();
 
         if (existExperiences is null)
             return NotFound("Experience not found");
@@ -77,7 +86,7 @@ public class ExperiencesController : ControllerBase
     }
 
 
-    [HttpDelete("deleteExperience/{id}")]
+    [HttpDelete("deleteExperiences/{id}")]
     public async Task<IActionResult> DeleteExperience([FromRoute] int id)
     {
         var existExperience = await _appDbContext.Experiences.FindAsync(id);

@@ -1,19 +1,63 @@
 ﻿@using AdminPanelMVC.Models.Skills;
-@model CreateSkillsViewModel;
+@model SkillsViewModel;
 
-<form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="CreateSkills">
+<form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="UpdateSkills">
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">Description</label>
-        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills" disabled></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+    <div id="input-container" class="mb-3">
+        @if (Model.SkillsList != null)
+        {
+            // Mevcut yetenekler için input alanları oluştur
+            for (var i = 0; i < Model.SkillsList.Count; i++)
+            {
+                <div class="input-group mt-2">
+                    <input type="text" name="SkillsList[@i]" class="form-control" value="@Model.SkillsList[i]" />
+                    <button type="button" class="btn btn-danger remove-input-btn">X</button>
+                </div>
+            }
+        }
     </div>
 
-    <!-- Dinamik olarak input alanlarının ekleneceği alan -->
-    <!-- Add Skills Butonu -->
-
-    <!-- Submit Butonu -->
     <div class="mb-6">
-        <button type="submit" class="btn btn-warning me-3 mt-2">Click for Edit</button>
+        <button type="submit" class="btn btn-warning me-3 mt-2">Update</button>
+        <a href="@Url.Action("CreateSkills", "SkillsAdmin")" class="btn btn-success ms-2 mt-2">Create a New Skill</a>
     </div>
 </form>
+
+@section Scripts {
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var inputContainer = document.getElementById("input-container");
+
+            // Mevcut silme butonları için click eventini ekleyelim
+            inputContainer.querySelectorAll(".remove-input-btn").forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    var inputElement = event.target.closest('.input-group').querySelector('input');
+                    var skillValue = inputElement.value;
+                    deleteSkill(skillValue);
+                });
+            });
+
+            // Remove button click handler
+            function deleteSkill(skill) {
+                if (!skill) {
+                    alert("Skill value is empty or null.");
+                    return;
+                }
+
+                var form = document.createElement("form");
+                form.method = "post";
+                form.action = "@Url.Action("DeleteSkill", "SkillsAdmin")";
+
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "skillName";
+                hiddenInput.value = skill;
+
+                form.appendChild(hiddenInput);
+                document.body.appendChild(form);
+
+                form.submit();
+            }
+        });
+    </script>
+}

@@ -3,12 +3,6 @@
 
 <form method="post" id="formAuthentication" class="mb-6" asp-controller="SkillsAdmin" asp-action="CreateSkills">
 
-    <div class="mb-6">
-        <label asp-for="Description" class="form-label">Description</label>
-        <textarea asp-for="Description" class="form-control" placeholder="Enter your skills"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
     <!-- Dinamik olarak input alanlarının ekleneceği alan -->
     <div id="input-container" class="mb-3">
     </div>
@@ -28,21 +22,26 @@
 
 @section Scripts {
     <script type="text/javascript">
-        // Buton ve input container'ını seç
         var addButton = document.getElementById("add-input-btn");
         var inputContainer = document.getElementById("input-container");
 
-        // Butona tıklanınca yeni bir input ekle
+        // Dinamik olarak eklenen inputlar için bir sayaç
+        var inputCount = 0;
+
         addButton.addEventListener("click", function () {
             // Yeni bir input alanı oluştur
             var newInput = document.createElement("input");
             newInput.type = "text";
-            newInput.name = "Skills[]"; // Aynı isimle birden fazla input gönderme
-            newInput.className = "form-control mt-2"; // Bootstrap class for styling
-            newInput.placeholder = "Enter a skill"; // Placeholder ekleme
+            newInput.name = `SkillsList[${inputCount}]`; // Dinamik olarak isimlendirme
+            newInput.className = "form-control mt-2";
+            newInput.placeholder = "Enter a skill";
 
             // Input alanını container'a ekle
             inputContainer.appendChild(newInput);
+
+            // Sayacı artır
+            inputCount++;
         });
     </script>
 }
+

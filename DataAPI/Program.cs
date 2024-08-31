@@ -32,7 +32,7 @@ public class Program
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         //context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
 
         app.UseAuthorization();
 

@@ -1,6 +1,14 @@
 ﻿@using PortfoyMVC.Models;
 @model ContactFormViewModel;
 
+<!-- Başarı Mesajı Gösterimi -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <form method="post" asp-controller="Contact" asp-action="SubmitContactForm" class="col-md-12">
     <div class="form-group col-md-12">
         <label asp-for="Name">Name</label>

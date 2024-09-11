@@ -67,5 +67,6 @@ npm install</code></pre>
 <h2>Contact</h2>
 <p>For inquiries, reach out at <a href="mailto:fatmanurjackiewicz@gmail.com">fatmanurjackiewicz@gmail.com</a>.</p>
 
+ - Thanks for huge help to @ahmeetkocc - 
 </body>
 </html>

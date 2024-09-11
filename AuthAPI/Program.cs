@@ -96,7 +96,7 @@ namespace AuthAPI
             //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

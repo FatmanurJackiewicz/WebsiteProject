@@ -20,19 +20,19 @@ namespace AdminPanelMVC
 
 			builder.Services.AddHttpClient("ApiClient", client =>
 			{
-				client.BaseAddress = new Uri("https://localhost:7150/");
+				client.BaseAddress = new Uri("http://authapi.fatmanur-km102.gturkmen.net/");
 
 			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
 			builder.Services.AddHttpClient("ApiClientData", client =>
 			{
-				client.BaseAddress = new Uri("https://localhost:7241/");
+				client.BaseAddress = new Uri("http://dataapi.fatmanur-km102.gturkmen.net/");
 
 			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
 			builder.Services.AddHttpClient("ApiClientFile", client =>
 			{
-				client.BaseAddress = new Uri("https://localhost:7069/");
+				client.BaseAddress = new Uri("http://fileapi.fatmanur-km102.gturkmen.net/");
 
 			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
@@ -82,7 +82,7 @@ namespace AdminPanelMVC
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();

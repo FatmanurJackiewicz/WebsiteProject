@@ -8,31 +8,31 @@ namespace PortfoyMVC
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddHttpClient("ApiClient", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:7150/");
+			builder.Services.AddHttpClient("ApiClient", client =>
+			{
+				client.BaseAddress = new Uri("https://localhost:7150/");
 
-            });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
-            builder.Services.AddHttpClient("ApiClientData", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:7241/");
+			builder.Services.AddHttpClient("ApiClientData", client =>
+			{
+				client.BaseAddress = new Uri("https://localhost:7241/");
 
-            });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
-            builder.Services.AddHttpClient("ApiClientFile", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:7069/");
+			builder.Services.AddHttpClient("ApiClientFile", client =>
+			{
+				client.BaseAddress = new Uri("https://localhost:7069/");
 
-            });/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
+			});/*.AddHttpMessageHandler<AuthenticationDelegatingHandler>();*/
 
-            builder.Services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add<MainFilter>(); // 'new MainFilter()' de?il, tür olarak ekliyoruz
-            });
+			builder.Services.AddControllersWithViews(options =>
+			{
+				options.Filters.Add<MainFilter>(); // 'new MainFilter()' de?il, tür olarak ekliyoruz
+			});
 
 
-            var app = builder.Build();
+			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())
@@ -42,7 +42,7 @@ namespace PortfoyMVC
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();

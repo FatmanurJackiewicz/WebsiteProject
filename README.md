@@ -46,8 +46,26 @@ npm install</code></pre>
     <li><strong>Entity Framework Core</strong>: For database interactions</li>
     <li><strong>SQL Server</strong>: As a database</li>
 </ul>
+<h2>Contributing</h2>
+<ol>
+    <li>Fork the repository</li>
+    <li>Create a new branch:
+        <pre><code>git checkout -b feature/your-feature-name</code></pre>
+    </li>
+    <li>Commit your changes:
+        <pre><code>git commit -m 'Add some feature'</code></pre>
+    </li>
+    <li>Push to the branch:
+        <pre><code>git push origin feature/your-feature-name</code></pre>
+    </li>
+    <li>Open a pull request</li>
+</ol>
 
+<h2>License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
 
+<h2>Contact</h2>
+<p>For inquiries, reach out at <a href="mailto:fatmanurjackiewicz@gmail.com">fatmanurjackiewicz@gmail.com</a>.</p>
 
 </body>
 </html>

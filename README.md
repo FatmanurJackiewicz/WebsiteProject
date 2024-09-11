@@ -1,2 +1,12 @@
-WebsiteProject
-A portfolio website project demonstrating various web development skills including HTML, CSS, JavaScript, and backend integration with ASP.NET Core.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebsiteProject README</title>
+</head>
+<body>
+
+
+</body>
+</html>

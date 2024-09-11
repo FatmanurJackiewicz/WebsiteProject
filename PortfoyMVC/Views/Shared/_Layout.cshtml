@@ -2,7 +2,7 @@
 <html lang="en">
 <partial name="Partials/Layout/_Head" />
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-	
+
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" href="https://github.com/FatmanurJackiewicz/WebsiteProject" target="_blank">Fatmanur</a>
@@ -32,8 +32,6 @@
 	<partial name="Partials/Layout/_Services" />
 	<partial name="Partials/Layout/_Projects" />
 
-
-
 	<section class="ftco-section ftco-hireme img margin-top" style="background-image: url(images/bg_1.jpg)">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -52,12 +50,26 @@
 	<partial name="Partials/Layout/_Contact" />
 	<partial name="Partials/Layout/_Footer" />
 
+	<div id="ftco-loader" class="show fullscreen">
+		<svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
+		</svg>
+	</div>
 
-	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+	<!-- jQuery CDN -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Migrate -->
 	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+
+	<!-- jQuery Validation -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+	<!-- jQuery Unobtrusive Validation -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+	<!-- Diğer script dosyalarınız -->
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery.easing.1.3.js"></script>
@@ -71,5 +83,6 @@
 	<script src="js/main.js"></script>
 
 	@RenderBody()
+	@RenderSection("Scripts", required: false)
 </body>
 </html>

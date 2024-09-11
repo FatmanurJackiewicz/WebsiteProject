@@ -45,7 +45,7 @@ namespace PortfoyMVC.Controllers
 			// İletişim formunu dolduran kişinin bilgilerini e-posta ile gönder
 			await SendContactEmailAsync(contactFormViewModel);
 
-			TempData["SuccessMessage"] = "Contact message başarıyla gönderildi.";
+			TempData["SuccessMessage"] = "Contact message sent successfully.";
 			return RedirectToAction("Index", "Home");
 		}
 
